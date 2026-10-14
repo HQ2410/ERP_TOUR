@@ -1,7 +1,7 @@
 # ERP Du lịch — Điều hành tour
 
 Project web (HTML/CSS/JS thuần, không cần cài đặt) xây theo file **NỘI DUNG YÊU CẦU PM**,
-giao diện dùng lại design system của **ERP LENAM** (`css/style.css` lấy nguyên từ LENAM).
+giao diện nền design system **ERP LENAM** (`css/style.css`), phủ thêm `css/theme-tnk.css` để đổi màu/bố cục theo mẫu (sidebar xanh, thẻ KPI đổ màu, trang Tổng quan).
 
 ## Chạy
 Mở `index.html` bằng trình duyệt (hoặc đặt vào thư mục XAMPP/htdocs). Không cần backend.
@@ -37,9 +37,13 @@ Trình duyệt không tự gửi email được. Hai chế độ:
 ```
 index.html            khung giao diện (sidebar + topbar) như LENAM
 css/style.css         design system LENAM        css/tour.css  phần bổ sung
+css/theme-tnk.css     màu sắc/bố cục theo mẫu (đổi màu chủ đạo ở đây)
 js/data.js            kho dữ liệu, dữ liệu mẫu, hàm tính nghiệp vụ (App.Store, App.Calc)
 js/core.js            modal, toast, bảng, xuất Excel, in/PDF, router
-js/modules/*.js       7 phân hệ        js/app.js  khởi động, menu, tìm kiếm Ctrl+K, thông báo
+js/modules/*.js       7 phân hệ + dashboard.js (trang Tổng quan)        js/app.js  khởi động, menu, tìm kiếm Ctrl+K, thông báo
 assets/               Font Awesome, Chart.js, SheetJS (chạy offline)
 ```
 Chuyển sang CSDL thật: thay `Store.load()/save()` trong `data.js` bằng gọi API; các phân hệ giữ nguyên.
+
+## Đổi thương hiệu
+Tên/logo "TNK" nằm ở `index.html` (khối `.brand`). Màu sidebar: biến `--side-bg`, `--side-bg-2` đầu file `theme-tnk.css`.

@@ -7,6 +7,7 @@
   const App = window.App, U = App.UI, C = App.Calc, Store = App.Store, R = App.Router, $ = U.$;
 
   const NAV = [
+    { group: 'Tổng quan', items: [['dashboard', 'Tổng quan', 'house']] },
     { group: 'Nghiệp vụ', items: [['customers', 'Khách hàng', 'users'], ['orders', 'Đơn hàng', 'file-invoice-dollar'], ['suppliers', 'Nhà cung cấp', 'handshake'], ['operations', 'Điều hành tour', 'route']] },
     { group: 'Tài chính', items: [['accounting', 'Kế toán', 'calculator'], ['reports', 'Báo cáo', 'chart-pie']] },
     { group: 'Quản trị', items: [['system', 'Hệ thống', 'gear']] }
@@ -30,6 +31,7 @@
   function buildNav() {
     $('#nav').innerHTML = NAV.map(g => '<div class="nav-group">' + g.group + '</div>' + g.items.map(i => '<a class="nav-item" data-nav="' + i[0] + '" href="#/' + i[0] + '"><i class="fa-solid fa-' + i[2] + '"></i><span>' + i[1] + '</span><span class="nav-count" data-cnt="' + i[0] + '" style="display:none"></span></a>').join('')).join('');
   }
+  App.alerts = alerts;
   App.refreshChrome = function () {
     const S = Store.state, set = (k, n, alert) => { const e = $('[data-cnt="' + k + '"]'); if (!e) return; e.textContent = n; e.style.display = n ? '' : 'none'; e.classList.toggle('alert', !!alert); };
     set('orders', S.orders.length); set('operations', S.tours.filter(t => t.status !== 'quyettoan').length);
@@ -90,7 +92,7 @@
     $('#topUser').onclick = userMenu; $('#sideUser').onclick = userMenu;
     bindGlobalSearch();
 
-    R.start = () => { window.addEventListener('hashchange', R.render); if (!location.hash) location.hash = '#/reports'; else R.render(); };
+    R.start = () => { window.addEventListener('hashchange', R.render); if (!location.hash) location.hash = '#/dashboard'; else R.render(); };
     R.start();
   }
   document.addEventListener('DOMContentLoaded', init);

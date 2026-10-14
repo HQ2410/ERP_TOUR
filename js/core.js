@@ -264,10 +264,10 @@
     if (location.hash === hash) R.render(); else location.hash = hash;
   };
   R.takeQ = () => { const q = R.preQ; R.preQ = ''; return q; };
-  R.parse = () => { const h = (location.hash || '').replace(/^#\/?/, ''); const p = h.split('/').filter(Boolean).map(decodeURIComponent); return { name: p[0] || 'reports', args: p.slice(1) }; };
+  R.parse = () => { const h = (location.hash || '').replace(/^#\/?/, ''); const p = h.split('/').filter(Boolean).map(decodeURIComponent); return { name: p[0] || 'dashboard', args: p.slice(1) }; };
   R.render = function () {
     const { name, args } = R.parse();
-    const mod = R.routes[name] || R.routes.reports;
+    const mod = R.routes[name] || R.routes.dashboard;
     U.destroyCharts(); U.popClose();
     R.current = name;
     const view = $('#view'); view.innerHTML = '';

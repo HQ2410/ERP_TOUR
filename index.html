@@ -16,6 +16,7 @@
   <!-- Design system lấy từ LENAM ERP + phần bổ sung riêng -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/tour.css">
+  <link rel="stylesheet" href="css/theme-tnk.css">
 </head>
 <body>
   <div class="app">
@@ -23,10 +24,10 @@
     <!-- ==================== SIDEBAR ==================== -->
     <aside class="sidebar" id="sidebar">
       <div class="brand">
-        <div class="brand-logo"><i class="fa-solid fa-plane-departure"></i></div>
+        <div class="brand-logo"><i class="fa-solid fa-location-arrow"></i></div>
         <div>
-          <div class="brand-name">TOUR ERP</div>
-          <div class="brand-sub">TRAVEL &amp; TOUR OPERATION</div>
+          <div class="brand-name">TNK</div>
+          <div class="brand-sub">TRAVEL &amp; TOUR ERP</div>
         </div>
         <button class="sidebar-close" id="sidebarClose" aria-label="Đóng menu"><i class="fa-solid fa-xmark"></i></button>
       </div>
@@ -59,7 +60,7 @@
 
         <div class="gsearch" id="gsearchBox">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="globalSearch" placeholder="Tìm khách hàng, đơn hàng, NCC, phiếu thu/chi…" autocomplete="off">
+          <input type="text" id="globalSearch" placeholder="Tìm kiếm…" autocomplete="off">
           <kbd>Ctrl K</kbd>
         </div>
 
@@ -67,7 +68,7 @@
         <button class="icon-btn" id="btnBell" data-pop aria-label="Thông báo"><i class="fa-regular fa-bell"></i><span class="dot-badge" id="bellCount">0</span></button>
 
         <button class="top-user" id="topUser" data-pop>
-          <span class="avatar sm">AD</span>
+          <span class="avatar sm"><i class="fa-solid fa-user"></i></span>
           <span class="top-user-meta">
             <span class="top-user-name">Quản trị viên</span><br>
             <span class="top-user-role">Toàn quyền</span>
@@ -97,6 +98,7 @@
   <script src="js/modules/accounting.js"></script>
   <script src="js/modules/operations.js"></script>
   <script src="js/modules/reports.js"></script>
+  <script src="js/modules/dashboard.js"></script>
   <script src="js/modules/system.js"></script>
   <script src="js/app.js"></script>
 </body>
