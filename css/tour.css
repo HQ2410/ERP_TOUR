@@ -1,0 +1,98 @@
+/* ============================================================================
+ * tour.css — Bổ sung cho design system (style.css) các thành phần riêng của
+ * ERP Du lịch / Điều hành tour. Không ghi đè token màu của style.css.
+ * ==========================================================================*/
+.modal.sm { max-width: 460px; }
+.modal .modal-foot .left { margin-right: auto; }
+
+.money-pos { color: var(--green); font-weight: 700; }
+.money-neg { color: var(--red); font-weight: 700; }
+.nowrap { white-space: nowrap; }
+.mt { margin-top: 14px; }
+.mb { margin-bottom: 14px; }
+.row-gap { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.muted { color: var(--text-3); }
+
+.toast-act { margin-top: 6px; background: none; border: 0; padding: 0; color: var(--primary); font-weight: 700; font-size: 12.3px; cursor: pointer; }
+.toast-act:hover { text-decoration: underline; }
+
+/* hàng KPI đầu trang */
+.kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-bottom: 16px; }
+
+/* chọn loại tài khoản (cá nhân / công ty) */
+.seg { display: flex; gap: 8px; flex-wrap: wrap; }
+.seg label { flex: 1 1 0; min-width: 150px; cursor: pointer; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg span {
+  display: flex; align-items: center; gap: 8px; padding: 9px 12px; border: 1px solid var(--border);
+  border-radius: 9px; background: var(--surface-2); font-size: 13px; font-weight: 600; color: var(--text-2); transition: .15s;
+}
+.seg span i { color: var(--text-3); }
+.seg input:checked + span { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); box-shadow: var(--ring); }
+.seg input:checked + span i { color: var(--primary); }
+.field.invalid .seg span { border-color: var(--red); }
+
+/* khối tóm tắt trong form */
+.sumbox { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r); padding: 12px 14px; }
+.sumbox .line { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; font-size: 13px; }
+.sumbox .line.total { border-top: 1px dashed var(--border-2); margin-top: 5px; padding-top: 8px; font-size: 15px; font-weight: 800; }
+.callout { display: flex; gap: 10px; padding: 11px 13px; border-radius: var(--r); background: var(--primary-soft); color: var(--text); font-size: 12.8px; line-height: 1.55; }
+.callout i { color: var(--primary); margin-top: 3px; }
+.callout.warn { background: var(--orange-soft); } .callout.warn i { color: var(--orange); }
+.callout.ok { background: var(--green-soft); } .callout.ok i { color: var(--green); }
+
+/* trang chi tiết tour */
+.back-link { display: inline-flex; align-items: center; gap: 7px; font-size: 12.8px; font-weight: 600; color: var(--text-2); cursor: pointer; margin-bottom: 8px; background: none; border: 0; padding: 0; }
+.back-link:hover { color: var(--primary); }
+.tour-meta { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 6px; font-size: 12.8px; color: var(--text-2); }
+.tour-meta i { color: var(--text-3); margin-right: 5px; width: 13px; text-align: center; }
+.tab-pane { padding: 16px 17px; }
+.tfoot-row td { font-weight: 800; background: var(--surface-2); }
+table.tbl tfoot td { padding: 11px 14px; border-top: 1px solid var(--border-2); font-weight: 800; background: var(--surface-2); }
+.sec-title { font-size: 13.5px; font-weight: 700; margin: 0 0 10px; display: flex; align-items: center; gap: 8px; }
+.sec-title i { color: var(--primary); }
+
+/* giá tour */
+.price-hero { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding: 16px 18px; border-radius: var(--r-lg); background: linear-gradient(135deg, var(--primary-soft), var(--surface-2)); border: 1px solid var(--border); }
+.price-hero .big { font-size: 30px; font-weight: 800; letter-spacing: -.03em; color: var(--primary); line-height: 1.1; }
+.price-hero .cap { font-size: 12.3px; color: var(--text-2); }
+.formula { font-size: 12.5px; color: var(--text-3); margin-top: 4px; }
+
+/* quyết toán */
+.check-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.check-list li { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+.check-list .ck { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; flex: 0 0 22px; }
+.check-list .ck.ok { background: var(--green); color: #fff; }
+.check-list .ck.no { background: var(--orange-soft); color: var(--orange); }
+
+/* thẻ NCC trong tab booking */
+.bk-card { border: 1px solid var(--border); border-radius: var(--r); padding: 13px 15px; background: var(--surface); }
+.bk-card + .bk-card { margin-top: 10px; }
+.bk-top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.bk-lines { margin: 9px 0 0; padding: 0; list-style: none; font-size: 12.8px; color: var(--text-2); display: grid; gap: 3px; }
+
+/* khung xem trước tài liệu */
+.doc-frame { width: 100%; height: min(68vh, 760px); border: 1px solid var(--border-2); border-radius: 8px; background: #fff; }
+
+/* biểu đồ */
+.chart-box { position: relative; height: 290px; }
+.chart-box.sm { height: 240px; }
+.filter-bar { display: flex; align-items: flex-end; gap: 10px; flex-wrap: wrap; padding: 13px 17px; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+.filter-bar .field { margin: 0; }
+.filter-bar .inp { height: 34px; }
+.preset { display: inline-flex; gap: 4px; }
+
+.page-note { font-size: 12px; color: var(--text-3); margin-top: 10px; }
+.status-sel { min-width: 150px; }
+@media (max-width: 700px) { .form-grid { grid-template-columns: 1fr; } .price-hero .big { font-size: 24px; } }
+
+/* --- tinh chỉnh bảng/KPI --- */
+.tbl td.right, .tbl th.right, .tbl td.center, .tbl th.center { white-space: nowrap; }
+.mkpi-value { white-space: nowrap; font-size: 19px; }
+.kpi-row { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.tbl td.act-col, .tbl th.act-col { position: sticky; right: 0; background: var(--surface); box-shadow: -8px 0 8px -8px rgba(15,23,42,.12); }
+.tbl thead th.act-col { background: var(--surface-2); }
+.tbl tbody tr:hover td.act-col { background: var(--surface-2); }
+#view .tbl th, #view .tbl td { padding-left: 10px; padding-right: 10px; }
+.tbl td.act-col .row-actions { gap: 0; }
+.tbl td.act-col .btn-icon { width: 28px; height: 28px; }

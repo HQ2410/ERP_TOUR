@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ERP Du lịch — Quản lý khách hàng, đơn hàng, điều hành tour</title>
+  <link rel="icon" href="data:,">
+  <meta name="description" content="Hệ thống quản lý khách hàng, đơn hàng, nhà cung cấp, điều hành tour, kế toán và báo cáo cho công ty du lịch.">
+
+  <!-- Font Inter (nếu offline sẽ tự dùng Segoe UI / system-ui) + FontAwesome cục bộ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/fa/css/all.min.css">
+
+  <!-- Design system lấy từ LENAM ERP + phần bổ sung riêng -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/tour.css">
+</head>
+<body>
+  <div class="app">
+
+    <!-- ==================== SIDEBAR ==================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-logo"><i class="fa-solid fa-plane-departure"></i></div>
+        <div>
+          <div class="brand-name">TOUR ERP</div>
+          <div class="brand-sub">TRAVEL &amp; TOUR OPERATION</div>
+        </div>
+        <button class="sidebar-close" id="sidebarClose" aria-label="Đóng menu"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <nav class="nav" id="nav"></nav>
+
+      <div class="side-foot">
+        <button class="side-user" id="sideUser" data-pop>
+          <span class="avatar">AD</span>
+          <span>
+            <span class="side-user-name">Quản trị viên</span><br>
+            <span class="side-user-role">Toàn quyền</span>
+          </span>
+          <i class="fa-solid fa-ellipsis-vertical"></i>
+        </button>
+      </div>
+    </aside>
+
+    <div class="scrim" id="scrim"></div>
+
+    <!-- ==================== MAIN ==================== -->
+    <div class="main">
+      <header class="topbar">
+        <button class="icon-btn hamburger" id="hamburger" aria-label="Mở menu"><i class="fa-solid fa-bars"></i></button>
+
+        <div style="min-width:0">
+          <div class="crumb-title" id="crumbTitle">Báo cáo</div>
+          <div class="crumb" id="crumb"></div>
+        </div>
+
+        <div class="gsearch" id="gsearchBox">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="globalSearch" placeholder="Tìm khách hàng, đơn hàng, NCC, phiếu thu/chi…" autocomplete="off">
+          <kbd>Ctrl K</kbd>
+        </div>
+
+        <button class="icon-btn" id="btnTheme" aria-label="Chế độ tối"><i class="fa-solid fa-moon"></i></button>
+        <button class="icon-btn" id="btnBell" data-pop aria-label="Thông báo"><i class="fa-regular fa-bell"></i><span class="dot-badge" id="bellCount">0</span></button>
+
+        <button class="top-user" id="topUser" data-pop>
+          <span class="avatar sm">AD</span>
+          <span class="top-user-meta">
+            <span class="top-user-name">Quản trị viên</span><br>
+            <span class="top-user-role">Toàn quyền</span>
+          </span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+      </header>
+
+      <main class="view" id="view"></main>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+  <div class="pop" id="pop"></div>
+  <div class="toasts" id="toasts"></div>
+
+  <!-- Thư viện cục bộ -->
+  <script src="assets/chart.js"></script>
+  <script src="assets/xlsx.full.min.js"></script>
+
+  <!-- 1) dữ liệu + nghiệp vụ  2) lõi UI  3) các phân hệ  4) khởi động -->
+  <script src="js/data.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/modules/customers.js"></script>
+  <script src="js/modules/orders.js"></script>
+  <script src="js/modules/suppliers.js"></script>
+  <script src="js/modules/accounting.js"></script>
+  <script src="js/modules/operations.js"></script>
+  <script src="js/modules/reports.js"></script>
+  <script src="js/modules/system.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
