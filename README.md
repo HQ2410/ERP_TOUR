@@ -1,7 +1,7 @@
 # ERP Du lịch — Điều hành tour
 
 Project web (HTML/CSS/JS thuần, không cần cài đặt) xây theo file **NỘI DUNG YÊU CẦU PM**,
-giao diện nền design system **ERP LENAM** (`css/style.css`), phủ thêm `css/theme-tnk.css` để đổi màu/bố cục theo mẫu (sidebar xanh, thẻ KPI đổ màu, trang Tổng quan).
+giao diện nền design system (`css/style.css`), phủ thêm `css/theme-tnk.css` để đổi màu/bố cục theo mẫu (sidebar xanh, thẻ KPI đổ màu, trang Tổng quan).
 
 ## Chạy
 Mở `index.html` bằng trình duyệt (hoặc đặt vào thư mục XAMPP/htdocs). Không cần backend.
@@ -35,8 +35,8 @@ Trình duyệt không tự gửi email được. Hai chế độ:
 
 ## Cấu trúc
 ```
-index.html            khung giao diện (sidebar + topbar) như LENAM
-css/style.css         design system LENAM        css/tour.css  phần bổ sung
+index.html            khung giao diện (sidebar + topbar)
+css/style.css         design system         css/tour.css  phần bổ sung
 css/theme-tnk.css     màu sắc/bố cục theo mẫu (đổi màu chủ đạo ở đây)
 js/data.js            kho dữ liệu, dữ liệu mẫu, hàm tính nghiệp vụ (App.Store, App.Calc)
 js/core.js            modal, toast, bảng, xuất Excel, in/PDF, router
