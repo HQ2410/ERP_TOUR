@@ -321,7 +321,7 @@
     let h = '<div class="tab-pane"><div class="row-gap mb"><div class="field" style="margin:0"><label>Số khách</label><input class="inp" id="guests" type="number" min="1" step="1" value="' + t.guests + '" style="width:120px"' + (locked ? ' disabled' : '') + '></div>' +
       '<div class="spacer" style="flex:1"></div><button class="btn" data-act="priceXlsx"><i class="fa-solid fa-file-excel"></i>Xuất Excel</button><button class="btn btn-primary" data-act="pricePrint"><i class="fa-solid fa-print"></i>In / Xuất PDF</button></div>';
     h += '<div class="price-hero mb"><div><div class="cap">Giá tour cho 1 khách (giá vốn)</div><div class="big">' + U.money(p.per) + '</div><div class="formula">= Tổng chi phí dịch vụ ' + U.money(p.cost) + ' ÷ ' + p.guests + ' khách</div></div>' +
-      '<div style="margin-left:auto;text-align:right"><div class="cap">Giá bán thực tế / khách (từ đơn hàng)</div><div style="font-size:19px;font-weight:800">' + U.money(p.sell) + '</div><div class="formula">Chênh lệch ' + U.signed(diff) + ' / khách' + (p.per ? ' (' + (diff / p.per * 100).toFixed(1) + '% so với giá vốn)' : '') + '</div></div></div>';
+      '<div class="ph-right"><div class="cap">Giá bán thực tế / khách (từ đơn hàng)</div><div style="font-size:19px;font-weight:800">' + U.money(p.sell) + '</div><div class="formula">Chênh lệch ' + U.signed(diff) + ' / khách' + (p.per ? ' (' + (diff / p.per * 100).toFixed(1) + '% so với giá vốn)' : '') + '</div></div></div>';
     h += '<div class="card" style="box-shadow:none">' + U.table({
       rows: t.budget, st: { page: 1 }, size: 200, nopager: true, empty: U.empty('calculator', 'Chưa có dự trù', 'Thêm dịch vụ ở tab “Dự trù dịch vụ” để tính giá tour.'),
       cols: [{ label: '#', cls: 'center', render: l => t.budget.indexOf(l) + 1 }, { label: 'Dịch vụ', render: l => U.esc(l.service) + '<div class="cell-sub">' + U.esc((C.supplier(l.supplierId) || {}).name || '') + '</div>' },
@@ -351,7 +351,7 @@
   /* ------------------------------------------------------------ TAB BÀN GIAO */
   function paneHandover(t) {
     const locked = t.status === 'quyettoan', hv = t.handover || { date: U.todayISO(), receiver: '', phone: '', note: '' }, dis = locked ? ' disabled' : '';
-    let h = '<div class="tab-pane"><div class="grid g-12" style="grid-template-columns:minmax(260px,1fr) 2fr;align-items:start"><div>' +
+    let h = '<div class="tab-pane"><div class="ho-grid"><div>' +
       '<div class="sec-title"><i class="fa-solid fa-handshake-angle"></i>Thông tin bàn giao</div>' +
       U.field({ id: 'hDate', label: 'Ngày bàn giao', html: U.input({ id: 'hDate', type: 'date', value: hv.date, attrs: dis }) }) +
       U.field({ id: 'hReceiver', label: 'Người nhận bàn giao (HDV / trưởng đoàn)', req: true, html: U.input({ id: 'hReceiver', value: hv.receiver, attrs: dis }) }) +

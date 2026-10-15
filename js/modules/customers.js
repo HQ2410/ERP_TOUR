@@ -94,7 +94,7 @@
     const info = '<dl class="dl mb">' +
       '<dt>Mã khách hàng</dt><dd>' + c.id + '</dd><dt>Họ tên</dt><dd>' + U.esc(c.name) + '</dd><dt>Năm sinh</dt><dd>' + (c.birthYear || '—') + '</dd>' +
       '<dt>Điện thoại</dt><dd>' + U.esc(c.phone) + '</dd><dt>Số CCCD</dt><dd>' + (U.esc(c.cccd) || '—') + '</dd><dt>Địa chỉ</dt><dd>' + (U.esc(c.address) || '—') + '</dd></dl>';
-    const kp = '<div class="kpi-row" style="grid-template-columns:repeat(3,1fr)">' + U.mkpi({ icon: 'file-invoice-dollar', tone: 'blue', label: 'Số đơn hàng', value: orders.length }) +
+    const kp = '<div class="kpi-row cols3">' + U.mkpi({ icon: 'file-invoice-dollar', tone: 'blue', label: 'Số đơn hàng', value: orders.length }) +
       U.mkpi({ icon: 'sack-dollar', tone: 'green', label: 'Doanh thu', value: U.money(rev) }) + U.mkpi({ icon: 'hand-holding-dollar', tone: 'orange', label: 'Còn phải thu', value: U.money(Math.max(0, rev - paid)) }) + '</div>';
     const tbl = orders.length ? '<div class="tbl-wrap"><table class="tbl" style="min-width:560px"><thead><tr><th>Mã đơn</th><th>Dịch vụ</th><th>Khởi hành</th><th class="right">Phải thu</th><th>Thu tiền</th></tr></thead><tbody>' +
       orders.map(o => { const s = C.orderStatus(o); return '<tr><td><span class="code">' + o.id + '</span></td><td>' + U.esc(o.serviceName) + '</td><td>' + U.fdate(o.start) + '</td><td class="right">' + U.money(C.total(o)) + '</td><td>' + U.badge(s.label, s.tone) + '</td></tr>'; }).join('') +

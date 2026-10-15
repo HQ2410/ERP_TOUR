@@ -47,3 +47,6 @@ Chuyển sang CSDL thật: thay `Store.load()/save()` trong `data.js` bằng g�
 
 ## Đổi thương hiệu
 Tên/logo "TNK" nằm ở `index.html` (khối `.brand`). Màu sidebar: biến `--side-bg`, `--side-bg-2` đầu file `theme-tnk.css`.
+
+## Giao diện điện thoại
+Dưới 700px: bảng tự chuyển thành dạng thẻ (mỗi dòng một thẻ, nhãn cột bên trái), thẻ KPI 2 cột, hộp thoại trượt từ dưới lên, ô tìm kiếm nằm hàng riêng. Thanh tab vuốt ngang, không có thanh cuộn.

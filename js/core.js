@@ -91,7 +91,7 @@
     if (!total) return '<div class="card-body">' + (o.empty || U.empty('inbox', 'Chưa có dữ liệu', '')) + '</div>';
     const head = '<tr>' + o.cols.map(c => '<th class="' + (c.cls || '') + '">' + c.label + '</th>').join('') + '</tr>';
     const body = slice.map(r => '<tr class="' + (o.rowCls ? o.rowCls(r) : '') + '" ' + (o.rowAttr ? o.rowAttr(r) : '') + '>' +
-      o.cols.map(c => '<td class="' + (c.cls || '') + '">' + c.render(r) + '</td>').join('') + '</tr>').join('');
+      o.cols.map(c => '<td class="' + (c.cls || '') + '" data-label="' + U.esc(String(c.label).replace(/<[^>]*>/g, '')) + '"><div class="td-v">' + c.render(r) + '</div></td>').join('') + '</tr>').join('');
     const foot = o.foot ? '<tfoot>' + o.foot + '</tfoot>' : '';
     let pager = '';
     if (total > size) {
@@ -103,7 +103,7 @@
         nums.map(n => n === '…' ? '<button class="pg dots" disabled>…</button>' : '<button class="pg' + (n === st.page ? ' active' : '') + '" data-pg="' + n + '">' + n + '</button>').join('') +
         '<button class="pg" data-pg="next"' + (st.page === pages ? ' disabled' : '') + '><i class="fa-solid fa-chevron-right"></i></button></div></div>';
     } else pager = o.nopager ? '' : '<div class="pagi"><div class="pagi-info">Tổng ' + total + ' bản ghi</div></div>';
-    return '<div class="tbl-wrap"><table class="tbl"><thead>' + head + '</thead><tbody>' + body + '</tbody>' + foot + '</table></div>' + pager;
+    return '<div class="tbl-wrap"><table class="tbl tbl-stack"><thead>' + head + '</thead><tbody>' + body + '</tbody>' + foot + '</table></div>' + pager;
   };
   // Trả về true nếu sự kiện click là bấm nút phân trang (đã đổi trang trong st)
   U.pagerClick = function (e, st) {
