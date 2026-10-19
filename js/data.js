@@ -177,27 +177,56 @@
   }
 
   /* ------------------------------------------------------------------ STORE */
+  // Số lớn nhất đang dùng của một loại mã (để sinh mã tiếp theo không trùng, kể cả khi nhiều người cùng làm việc)
+  function maxExisting(st, key) {
+    const nums = (arr, pre) => arr.map(x => String(x.id)).filter(id => id.startsWith(pre) && /^\d+$/.test(id.slice(pre.length))).map(id => Number(id.slice(pre.length)));
+    let a = [];
+    switch (key) {
+      case 'KH': a = nums(st.customers, 'KH'); break;
+      case 'DH': a = nums(st.orders, 'DH'); break;
+      case 'NCC': a = nums(st.suppliers, 'NCC'); break;
+      case 'DV': a = nums(st.settings.services, 'DV'); break;
+      case 'TK': a = nums(st.settings.accounts, 'TK'); break;
+      case 'PT': case 'PC': a = nums(st.vouchers, key); break;
+      case 'L': st.tours.forEach(t => { a = a.concat(nums(t.budget, 'L')); }); break;
+      case 'BK': st.tours.forEach(t => { a = a.concat(nums(t.bookings, 'BK')); }); break;
+    }
+    return a.length ? Math.max.apply(null, a) : 0;
+  }
+
   const Store = {
     state: null,
+    makeSeed: seed,
     load() {
       let s = null;
       try { s = JSON.parse(localStorage.getItem(KEY)); } catch (e) { s = null; }
-      if (!s || !s.version) { s = seed(); this.state = s; this.save(); }
+      if (!s || !s.version) { s = seed(); this.state = s; this.persist(); }
       this.state = s;
     },
-    save() { try { localStorage.setItem(KEY, JSON.stringify(this.state)); } catch (e) { console.warn('Không lưu được dữ liệu', e); } },
-    reset() { this.state = seed(); this.save(); },
-    clear() {
+    // persist: chỉ ghi bản lưu trên trình duyệt. save: ghi + báo cho TourAPI đẩy thay đổi lên KIO.
+    persist() { try { localStorage.setItem(KEY, JSON.stringify(this.state)); } catch (e) { console.warn('Không lưu được dữ liệu', e); } },
+    save() { this.persist(); if (App.TourAPI) App.TourAPI.touch(); },
+    useSeed() { this.state = seed(); this.persist(); },
+    useBlank() { this.state = seed(); this.clear(true); },
+    reset() { this.state = seed(); this.save(); if (App.TourAPI) App.TourAPI.requestReplace('Quản trị viên nạp lại dữ liệu mẫu'); },
+    clear(silent) {
       const b = blank(); const keep = this.state.settings;
       b.settings.company = keep.company; b.settings.mailApi = keep.mailApi;
       b.settings.services = keep.services; b.settings.accounts = keep.accounts.map(a => Object.assign({}, a));
       b.seq = { DV: keep.services.length, TK: keep.accounts.length };
-      this.state = b; this.save();
+      this.state = b;
+      if (silent) { this.persist(); return; }
+      this.save(); if (App.TourAPI) App.TourAPI.requestReplace('Quản trị viên xóa toàn bộ dữ liệu nghiệp vụ');
     },
-    replace(obj) { if (!obj || !obj.version || !obj.settings) throw new Error('File sao lưu không hợp lệ'); this.state = obj; this.save(); },
+    replace(obj) {
+      if (!obj || !obj.version || !obj.settings) throw new Error('File sao lưu không hợp lệ');
+      this.state = obj; this.save(); if (App.TourAPI) App.TourAPI.requestReplace('Quản trị viên khôi phục dữ liệu từ file sao lưu');
+    },
+    peekId(key, width) { return key + String(Math.max((this.state.seq || {})[key] || 0, maxExisting(this.state, key)) + 1).padStart(width, '0'); },
     nextId(key, width) {
-      const q = this.state.seq; q[key] = (q[key] || 0) + 1;
-      return key + String(q[key]).padStart(width, '0');
+      const q = this.state.seq || (this.state.seq = {});
+      const n = Math.max(q[key] || 0, maxExisting(this.state, key)) + 1; q[key] = n;
+      return key + String(n).padStart(width, '0');
     }
   };
 

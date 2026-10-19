@@ -53,7 +53,7 @@
   /* ---------------------------------------------------------- FORM THÊM/SỬA */
   function openForm(id, onSaved) {
     const c = id ? C.customer(id) : null;
-    const newId = c ? c.id : 'KH' + String((Store.state.seq.KH || 0) + 1).padStart(4, '0');
+    const newId = c ? c.id : Store.peekId('KH', 4);
     const html = '<div class="form-grid">' +
       U.field({ id: 'name', label: 'Họ tên', req: true, html: U.input({ id: 'name', value: c ? c.name : '', ph: 'VD: Nguyễn Văn A' }) }) +
       U.field({ id: 'code', label: 'Mã khách hàng', html: U.input({ id: 'code', value: newId, attrs: 'disabled' }) }) +

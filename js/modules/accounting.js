@@ -65,7 +65,7 @@
     const v = rec || { kind, date: U.todayISO(), accountId: '', amount: 0, party: '', content: '', orderId: opts.orderId || '', tourId: opts.tourId || '', lineId: opts.lineId || '', supplierId: '' };
     const locked = !rec && !!(opts.orderId || opts.tourId);
     const curAcc = C.account(v.accountId);
-    const code = rec ? rec.id : (isThu ? 'PT' : 'PC') + String(((S.seq[isThu ? 'PT' : 'PC']) || 0) + 1).padStart(4, '0');
+    const code = rec ? rec.id : Store.peekId(isThu ? 'PT' : 'PC', 4);
     const custOf = o => (C.customer(o.customerId) || {}).name || '';
 
     const orderOpts = () => S.orders.filter(o => o.id === v.orderId || (!isSettled(o.id) && C.orderRemain(o) > 0)).map(o => ({ v: o.id, l: o.id + ' — ' + custOf(o) + ' — còn phải thu ' + U.money(C.orderRemain(o)) }));

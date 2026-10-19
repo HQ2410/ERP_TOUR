@@ -175,6 +175,17 @@
     });
   });
 
+  // Xác nhận nguy hiểm: phải gõ đúng từ khóa mới bấm được nút
+  U.confirmType = o => new Promise(res => {
+    U.modal({
+      title: o.title || 'Xác nhận', size: 'sm', static: true, noFocus: true,
+      body: '<p style="font-size:13.5px;line-height:1.6">' + o.message + '</p><div class="field mt" data-f="w"><label>Gõ <b>' + U.esc(o.word) + '</b> để xác nhận</label><input class="inp" id="typed" autocomplete="off" autocapitalize="characters"><div class="err"></div></div>',
+      foot: [{ label: 'Hủy', onClick: h => { res(false); h.close(); } },
+        { label: o.ok || 'Xác nhận', cls: 'btn-danger', icon: o.icon, onClick: h => { if (U.val(h.body, 'typed').toUpperCase() !== String(o.word).toUpperCase()) { U.clearErr(h.body); U.invalid(h.body, 'w', 'Chưa đúng từ khóa'); return; } res(true); h.close(); } }],
+      onClose: () => res(false), onMount: h => setTimeout(() => h.$('#typed').focus(), 80)
+    });
+  });
+
   /* ---------------------------------------------------------- POPUP MENU */
   U.pop = function (anchor, html, opt) {
     const p = $('#pop'); p.innerHTML = html; p.className = 'pop' + (opt && opt.cls ? ' ' + opt.cls : '');
@@ -268,6 +279,8 @@
   R.render = function () {
     const { name, args } = R.parse();
     const mod = R.routes[name] || R.routes.dashboard;
+    if (App.Auth && !App.Auth.current()) return;
+    if (mod.adminOnly && !(App.Auth && App.Auth.isAdmin())) { U.toast('Không đủ quyền', 'Chỉ quản trị viên được truy cập mục “' + mod.title + '”.', 'warning'); R.go('#/dashboard'); return; }
     U.destroyCharts(); U.popClose();
     R.current = name;
     const view = $('#view'); view.innerHTML = '';

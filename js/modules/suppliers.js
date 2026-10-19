@@ -51,7 +51,7 @@
 
   function openForm(id, onSaved) {
     const s = id ? C.supplier(id) : null;
-    const code = s ? s.id : 'NCC' + String((Store.state.seq.NCC || 0) + 1).padStart(3, '0');
+    const code = s ? s.id : Store.peekId('NCC', 3);
     const html = '<div class="form-grid">' +
       U.field({ id: 'name', label: 'Tên nhà cung cấp', req: true, html: U.input({ id: 'name', value: s ? s.name : '', ph: 'VD: Khách sạn Biển Xanh' }) }) +
       U.field({ id: 'code', label: 'Mã NCC', html: U.input({ id: 'code', value: code, attrs: 'disabled' }) }) +

@@ -35,12 +35,12 @@
         { label: 'Mã đơn', render: o => '<span class="code">' + o.id + '</span><div class="cell-sub">Tạo ' + U.fdate(o.date) + '</div>' },
         { label: 'Khách hàng', render: o => { const c = C.customer(o.customerId); return c ? '<div class="cell-main">' + U.esc(c.name) + '</div><div class="cell-sub">' + U.esc(c.phone) + '</div>' : '<span class="muted">—</span>'; } },
         { label: 'Tên dịch vụ', render: o => '<span style="display:block;max-width:170px">' + U.esc(o.serviceName) + '</span>' },
-        { label: 'Khởi hành / Kết thúc', render: o => '<span class="nowrap">' + U.fdate(o.start) + '</span><div class="cell-sub nowrap">→ ' + U.fdate(o.end) + '</div>' },
+        { label: 'Thời gian', render: o => '<span class="nowrap">' + U.fdate(o.start) + '</span><div class="cell-sub nowrap">→ ' + U.fdate(o.end) + '</div>' },
         { label: 'Đơn giá', cls: 'right', render: o => U.money(o.price) },
         { label: 'SL', cls: 'center', render: o => U.fmt(o.qty) },
         { label: 'Thành tiền', cls: 'right', render: o => U.money(C.gross(o)) },
         { label: 'Giảm giá / HH', cls: 'right', render: o => { const d = C.discount(o); return d ? '<span class="money-neg">−' + U.money(d) + '</span>' + (o.discountUnit === 'percent' ? '<div class="cell-sub">' + o.discountValue + '%</div>' : '') : '<span class="muted">—</span>'; } },
-        { label: 'Phải thu / Thu tiền', cls: 'right', render: o => { const s = C.orderStatus(o); return '<b class="num">' + U.money(C.total(o)) + '</b><div style="margin-top:3px">' + U.badge(s.label, s.tone) + '</div><div class="cell-sub">Đã thu ' + U.money(C.orderPaid(o.id)) + '</div>'; } },
+        { label: 'Phải thu', cls: 'right', render: o => { const s = C.orderStatus(o); return '<b class="num">' + U.money(C.total(o)) + '</b><div style="margin-top:3px">' + U.badge(s.label, s.tone) + '</div><div class="cell-sub">Đã thu ' + U.money(C.orderPaid(o.id)) + '</div>'; } },
         { label: '', cls: 'right act-col', render: o => '<div class="row-actions">' + U.iconBtn('thu', o.id, 'hand-holding-dollar', 'Tạo phiếu thu') + U.iconBtn('tour', o.id, 'route', 'Mở điều hành tour') +
           U.iconBtn('print', o.id, 'print', 'In / Xuất PDF') + U.iconBtn('edit', o.id, 'pen', 'Sửa') + U.iconBtn('del', o.id, 'trash', 'Xóa') + '</div>' }
       ]

@@ -13,12 +13,45 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/fa/css/all.min.css">
 
-  <!-- Design system + phần bổ sung riêng -->
+  <!-- Design system lấy từ LENAM ERP + phần bổ sung riêng -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/tour.css">
   <link rel="stylesheet" href="css/theme-tnk.css">
+  <link rel="stylesheet" href="css/login.css">
 </head>
-<body>
+<body class="locked">
+  <!-- ==================== ĐĂNG NHẬP ==================== -->
+  <div class="login" id="login">
+    <section class="login-art">
+      <div class="login-brand"><i class="fa-solid fa-location-arrow"></i><span>TNK</span></div>
+      <h2>Quản lý tour trọn gói,<br>trong một nơi</h2>
+      <p>Từ đơn hàng, điều hành tour, booking nhà cung cấp đến kế toán và báo cáo.</p>
+      <ul>
+        <li><i class="fa-solid fa-route"></i>Điều hành tour: dự trù, booking, bàn giao, quyết toán</li>
+        <li><i class="fa-solid fa-file-invoice-dollar"></i>Đơn hàng, phiếu thu/chi, in và xuất PDF</li>
+        <li><i class="fa-solid fa-chart-pie"></i>Báo cáo doanh thu, lợi nhuận, dòng tiền, quỹ</li>
+      </ul>
+    </section>
+    <section class="login-panel">
+      <form class="login-card" id="loginForm" autocomplete="on" novalidate>
+        <div class="m-brand"><i class="fa-solid fa-location-arrow"></i>TNK</div>
+        <h1>Đăng nhập</h1>
+        <p>Chào mừng trở lại. Vui lòng đăng nhập để tiếp tục.</p>
+        <div class="lg-err" id="loginErr" role="alert"></div>
+        <div class="lg-field"><label for="lgUser">Tên đăng nhập</label>
+          <div class="lg-input"><i class="fa-regular fa-user lead"></i><input class="inp" id="lgUser" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="VD: admin"></div></div>
+        <div class="lg-field"><label for="lgPass">Mật khẩu</label>
+          <div class="lg-input"><i class="fa-solid fa-lock lead"></i><input class="inp" id="lgPass" name="password" type="password" autocomplete="current-password" placeholder="Nhập mật khẩu">
+            <button type="button" class="eye" id="lgEye" aria-label="Hiện/ẩn mật khẩu"><i class="fa-regular fa-eye"></i></button></div></div>
+        <div class="lg-conn" id="lgConn"><i class="fa-solid fa-spinner fa-spin"></i><span>Đang kết nối máy chủ KIO…</span><button type="button" id="lgRetry" style="display:none">Thử lại</button></div>
+        <div class="lg-row"><label><input type="checkbox" id="lgRemember"> Ghi nhớ đăng nhập</label></div>
+        <button class="btn btn-primary" id="lgBtn" type="submit"><i class="fa-solid fa-right-to-bracket"></i>Đăng nhập</button>
+        <div class="lg-hint" id="loginHint">Lần đầu sử dụng: tài khoản <b>admin</b> · mật khẩu <b>admin123</b>. Hệ thống sẽ nhắc bạn đổi mật khẩu sau khi đăng nhập.</div>
+        <div class="lg-foot">© TNK Travel &amp; Tour ERP</div>
+      </form>
+    </section>
+  </div>
+
   <div class="app">
 
     <!-- ==================== SIDEBAR ==================== -->
@@ -38,7 +71,7 @@
         <button class="side-user" id="sideUser" data-pop>
           <span class="avatar">AD</span>
           <span>
-            <span class="side-user-name">Quản trị viên</span><br>
+            <span class="side-user-name">Admin</span><br>
             <span class="side-user-role">Toàn quyền</span>
           </span>
           <i class="fa-solid fa-ellipsis-vertical"></i>
@@ -64,13 +97,14 @@
           <kbd>Ctrl K</kbd>
         </div>
 
+        <button class="sync-pill" id="syncPill" type="button" title="Trạng thái đồng bộ với máy chủ KIO"><i class="fa-solid fa-cloud"></i><span class="sp-text">…</span></button>
         <button class="icon-btn" id="btnTheme" aria-label="Chế độ tối"><i class="fa-solid fa-moon"></i></button>
         <button class="icon-btn" id="btnBell" data-pop aria-label="Thông báo"><i class="fa-regular fa-bell"></i><span class="dot-badge" id="bellCount">0</span></button>
 
         <button class="top-user" id="topUser" data-pop>
           <span class="avatar sm"><i class="fa-solid fa-user"></i></span>
           <span class="top-user-meta">
-            <span class="top-user-name">Quản trị viên</span><br>
+            <span class="top-user-name">Admin</span><br>
             <span class="top-user-role">Toàn quyền</span>
           </span>
           <i class="fa-solid fa-chevron-down"></i>
@@ -81,6 +115,7 @@
     </div>
   </div>
 
+  <div class="boot-loading" id="bootLoading"><div class="bl-box"><i class="fa-solid fa-spinner fa-spin"></i><span id="blText">Đang tải dữ liệu…</span></div></div>
   <div class="overlay" id="overlay"></div>
   <div class="pop" id="pop"></div>
   <div class="toasts" id="toasts"></div>
@@ -89,9 +124,17 @@
   <script src="assets/chart.js"></script>
   <script src="assets/xlsx.full.min.js"></script>
 
+  <!-- Thư viện KIO (list.js, krud.js) — nếu không tải được, ứng dụng tự chạy ở chế độ cục bộ -->
+  <script src="https://kio.dvqt.vn/list.js"></script>
+  <script src="https://kio.dvqt.vn/krud.js"></script>
+
   <!-- 1) dữ liệu + nghiệp vụ  2) lõi UI  3) các phân hệ  4) khởi động -->
   <script src="js/data.js"></script>
   <script src="js/core.js"></script>
+  <script src="js/api/kio-config.js"></script>
+  <script src="js/api/kio-api.js"></script>
+  <script src="js/api/tour-api.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/modules/customers.js"></script>
   <script src="js/modules/orders.js"></script>
   <script src="js/modules/suppliers.js"></script>
