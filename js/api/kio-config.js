@@ -18,7 +18,8 @@ const TOUR_KIO_CONFIG = Object.freeze({
     suppliers: 'tnk_tour_suppliers',
     orders:    'tnk_tour_orders',
     tours:     'tnk_tour_tours',      // tour điều hành (kèm dự trù, booking, bàn giao, quyết toán)
-    vouchers:  'tnk_tour_vouchers'    // phiếu thu / chi
+    vouchers:  'tnk_tour_vouchers',   // phiếu thu / chi
+    quotes:    'tnk_tour_quotes'      // báo giá / tính giá tour
   }),
   pollMs: 60000,        // tự kiểm tra thay đổi từ người khác mỗi 60 giây
   pushDebounceMs: 400   // gom các thao tác lưu liên tiếp trước khi gửi lên server

@@ -96,3 +96,56 @@ table.tbl tfoot td { padding: 11px 14px; border-top: 1px solid var(--border-2); 
 #view .tbl th, #view .tbl td { padding-left: 10px; padding-right: 10px; }
 .tbl td.act-col .row-actions { gap: 0; }
 .tbl td.act-col .btn-icon { width: 28px; height: 28px; }
+
+/* ---- Trang Tính giá tour (báo giá) ---- */
+.q-layout { display: grid; grid-template-columns: minmax(0, 1fr) 350px; gap: 18px; align-items: start; }
+.q-side { position: sticky; top: 84px; }
+.q-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px 14px; }
+.q-grid .field { margin: 0; } .q-grid .span2 { grid-column: span 2; } .q-grid .span4 { grid-column: 1 / -1; }
+.qrow { display: grid; grid-template-columns: minmax(190px, 2.5fr) minmax(70px, .8fr) minmax(70px, .8fr) minmax(110px, 1.1fr) minmax(130px, 1.15fr) minmax(110px, 1.1fr) 36px; gap: 10px; align-items: start; padding: 12px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-2); }
+.qrow + .qrow { margin-top: 10px; }
+.qf label { display: block; font-size: 11px; font-weight: 700; color: var(--text-3); margin-bottom: 5px; text-transform: uppercase; letter-spacing: .02em; }
+.qf .inp { width: 100%; }
+.q-amt { font-weight: 800; font-size: 15px; padding: 9px 0; white-space: nowrap; }
+.q-del { margin-top: 20px; }
+.q-hint { min-height: 15px; margin-top: 3px; }
+.q-sug { position: fixed; z-index: 300; display: none; background: var(--surface); border: 1px solid var(--border-2); border-radius: 12px; box-shadow: 0 16px 40px rgba(15,27,51,.2); max-height: 320px; overflow: auto; padding: 6px; }
+.q-sug-item { display: flex; gap: 10px; align-items: center; padding: 9px 10px; border-radius: 8px; cursor: pointer; font-size: 13px; }
+.q-sug-item:hover { background: var(--primary-soft); }
+.q-sug-item b { flex: 1; min-width: 0; font-weight: 600; } .q-sug-item b span { color: var(--text-3); font-size: 12px; font-weight: 500; }
+.q-sug-item em { font-style: normal; font-weight: 700; color: var(--primary); white-space: nowrap; }
+tr.row-active td { background: var(--primary-soft) !important; }
+@media (max-width: 1100px) {
+  .q-layout { grid-template-columns: 1fr; } .q-side { position: static; }
+  .qrow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .qrow .q-name-wrap { grid-column: 1 / -1; } .qrow .q-del { grid-column: 1 / -1; justify-self: end; margin-top: 0; }
+}
+@media (max-width: 700px) {
+  .q-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .q-grid .span2, .q-grid .span4 { grid-column: 1 / -1; }
+  .qrow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---- ô chọn NCC có tìm kiếm (form dự trù) ---- */
+.combo { position: relative; }
+.combo-list { display: none; position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 30; max-height: 240px; overflow-y: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 12px 28px -10px rgba(15, 23, 42, .25); }
+.combo-list.open { display: block; }
+.combo-item { padding: 8px 12px; cursor: pointer; border-bottom: 1px solid var(--border); }
+.combo-item:last-child { border-bottom: 0; }
+.combo-item:hover { background: var(--surface-2); }
+.combo-item .cell-sub { display: block; }
+.combo-empty { padding: 12px; font-size: 12.8px; color: var(--text-3); }
+
+/* ---- dự trù / booking ---- */
+.btn-booking { margin-top: 4px; color: var(--primary); border-color: var(--primary); background: var(--primary-soft); }
+.row-cancelled td { opacity: .62; }
+.row-cancelled td:last-child { opacity: 1; }
+.due-over, .due-over b { color: var(--red); font-weight: 700; }
+.bk-lines li { margin-bottom: 4px; }
+
+/* ---- bàn giao tour ---- */
+.ho-total { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-top: 14px; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--r); background: var(--surface-2); }
+.ho-big { font-size: 24px; font-weight: 800; color: var(--red); letter-spacing: -.02em; }
+
+/* ---- nút “Xem chi tiết” trên thẻ Tổng quan ---- */
+.kcard .kc-more { position: relative; z-index: 1; margin-top: 8px; padding: 0; border: 0; background: none; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; opacity: .95; }
+.kcard .kc-more:hover { opacity: 1; }

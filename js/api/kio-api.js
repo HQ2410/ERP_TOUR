@@ -402,7 +402,8 @@ const KioStore = (() => {
       'tnk_tour_suppliers',
       'tnk_tour_orders',
       'tnk_tour_tours',
-      'tnk_tour_vouchers'
+      'tnk_tour_vouchers',
+      'tnk_tour_quotes'
     ]);
     if (incoming.length === 0 && EMPTY_PROTECTED_TABLES.has(String(table))) {
       const allowEmpty = options?.allowEmpty === true && String(options?.reason || '').trim().length >= 8;

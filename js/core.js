@@ -240,7 +240,7 @@
   U.docDate = iso => { const p = (iso || U.todayISO()).slice(0, 10).split('-'); return 'Ngày ' + p[2] + ' tháng ' + p[1] + ' năm ' + p[0]; };
   U.previewDoc = function (title, bodyHtml, o) {
     o = o || {};
-    const full = '<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"><title>' + U.esc(o.filename || title) + '</title><style>' + DOC_CSS + '</style></head><body>' + bodyHtml + '</body></html>';
+    const full = '<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"><title>' + U.esc(o.filename || title) + '</title><style>' + (o.landscape ? DOC_CSS.replace('size:A4', 'size:A4 landscape') : DOC_CSS) + '</style></head><body>' + bodyHtml + '</body></html>';
     const foot = [{ label: 'Đóng', onClick: h => h.close() }];
     if (o.xlsx) foot.splice(0, 0, { label: 'Xuất Excel', icon: 'file-excel', left: true, onClick: () => o.xlsx() });
     foot.push({ label: 'Lưu PDF', icon: 'file-pdf', onClick: (h) => doPrint(h) });

@@ -17,7 +17,7 @@
   function base() {
     const q = U.norm(st.q);
     return Store.state.vouchers.filter(v => (!st.kind || (C.account(v.accountId) || {}).kind === st.kind) &&
-      (!q || U.norm(v.id).includes(q) || U.norm(v.content).includes(q) || U.norm(v.party).includes(q) || U.norm(v.orderId).includes(q) || U.norm(v.tourId).includes(q)));
+      (!q || U.norm(v.id).includes(q) || U.norm(v.content).includes(q) || U.norm(v.party).includes(q) || U.norm(v.orderId).includes(q) || U.norm(v.tourId).includes(q) || U.norm(C.expenseLabel(v)).includes(q)));
   }
   const sortDesc = arr => arr.slice().sort((a, b) => (b.date + b.id).localeCompare(a.date + a.id));
 
@@ -37,7 +37,7 @@
         { label: 'Ngày', render: v => '<span class="nowrap">' + U.fdate(v.date) + '</span>' },
         { label: 'Loại', render: v => v.kind === 'thu' ? U.badge('Thu', 'green') : U.badge('Chi', 'red') },
         { label: 'Người nộp / nhận', render: v => '<span class="cell-main">' + U.esc(v.party) + '</span>' },
-        { label: 'Nội dung', render: v => '<span style="display:block;max-width:300px">' + U.esc(v.content) + '</span>' + (C.voucherLinkLabel(v) ? '<div class="cell-sub">' + C.voucherLinkLabel(v) + '</div>' : '') },
+        { label: 'Nội dung', render: v => '<span style="display:block;max-width:300px">' + U.esc(v.content) + '</span>' + (C.expenseLabel(v) ? '<div class="cell-sub"><i class="fa-solid fa-tag"></i> ' + U.esc(C.expenseLabel(v)) + '</div>' : '') + (C.voucherLinkLabel(v) ? '<div class="cell-sub">' + C.voucherLinkLabel(v) + '</div>' : '') },
         { label: 'Tài khoản', render: v => { const a = C.account(v.accountId); return a ? '<div class="cell-main">' + U.esc(a.bank) + '</div><div class="cell-sub">' + U.esc(a.number) + ' · ' + (a.kind === 'company' ? 'Công ty' : 'Cá nhân') + '</div>' : '<span class="muted">—</span>'; } },
         { label: 'Số tiền', cls: 'right', render: v => '<b class="num ' + (v.kind === 'thu' ? 'money-pos' : 'money-neg') + '">' + (v.kind === 'thu' ? '+' : '−') + U.money(v.amount) + '</b>' },
         { label: '', cls: 'right', render: v => '<div class="row-actions">' + U.iconBtn('print', v.id, 'print', 'In / Xuất PDF') + U.iconBtn('edit', v.id, 'pen', 'Sửa') + U.iconBtn('del', v.id, 'trash', 'Xóa') + '</div>' }
@@ -49,9 +49,9 @@
     const rows = sortDesc(base().filter(v => st.tab === 'all' || v.kind === st.tab));
     U.exportXlsx({
       filename: 'phieu-thu-chi', sheet: 'Phiếu thu chi', title: 'SỔ PHIẾU THU / CHI',
-      headers: ['Mã phiếu', 'Ngày', 'Loại', 'Người nộp / nhận', 'Nội dung', 'Chứng từ liên quan', 'Ngân hàng', 'Số tài khoản', 'Loại tài khoản', 'Thu (₫)', 'Chi (₫)'],
-      rows: rows.map(v => { const a = C.account(v.accountId) || {}; return [v.id, U.fdate(v.date), v.kind === 'thu' ? 'Thu' : 'Chi', v.party, v.content, C.voucherLinkLabel(v), a.bank || '', a.number || '', a.kind ? K.ACCOUNT_KINDS[a.kind] : '', v.kind === 'thu' ? v.amount : '', v.kind === 'chi' ? v.amount : '']; }),
-      moneyCols: [9, 10]
+      headers: ['Mã phiếu', 'Ngày', 'Loại', 'Người nộp / nhận', 'Nội dung', 'Loại chi', 'Chứng từ liên quan', 'Ngân hàng', 'Số tài khoản', 'Loại tài khoản', 'Thu (₫)', 'Chi (₫)'],
+      rows: rows.map(v => { const a = C.account(v.accountId) || {}; return [v.id, U.fdate(v.date), v.kind === 'thu' ? 'Thu' : 'Chi', v.party, v.content, C.expenseLabel(v), C.voucherLinkLabel(v), a.bank || '', a.number || '', a.kind ? K.ACCOUNT_KINDS[a.kind] : '', v.kind === 'thu' ? v.amount : '', v.kind === 'chi' ? v.amount : '']; }),
+      moneyCols: [10, 11]
     });
   }
 
@@ -62,7 +62,8 @@
     if (rec && (isSettled(rec.tourId) || isSettled(rec.orderId))) { U.toast('Không thể sửa phiếu', 'Tour liên quan đã quyết toán.', 'warning'); return; }
     if (!rec && (isSettled(opts.tourId) || isSettled(opts.orderId))) { U.toast('Tour đã quyết toán', 'Không thể lập thêm phiếu cho tour này.', 'warning'); return; }
     const isThu = kind === 'thu';
-    const v = rec || { kind, date: U.todayISO(), accountId: '', amount: 0, party: '', content: '', orderId: opts.orderId || '', tourId: opts.tourId || '', lineId: opts.lineId || '', supplierId: '' };
+    const v = rec || { kind, date: U.todayISO(), accountId: '', amount: opts.amount || 0, party: opts.party || '', content: opts.content || '', orderId: opts.orderId || '', tourId: opts.tourId || '', lineId: opts.lineId || '', supplierId: '', expenseType: opts.expenseType || '', expenseSub: '' };
+    const curType = rec ? (rec.expenseType || (rec.lineId ? 'ncc' : 'khac')) : (opts.expenseType || (opts.lineId ? 'ncc' : '')), lockType = !rec && !!(opts.lineId || opts.expenseType);
     const locked = !rec && !!(opts.orderId || opts.tourId);
     const curAcc = C.account(v.accountId);
     const code = rec ? rec.id : Store.peekId(isThu ? 'PT' : 'PC', 4);
@@ -73,8 +74,11 @@
 
     const link = isThu
       ? U.field({ id: 'orderId', label: 'Đơn hàng liên quan', hint: 'Không bắt buộc. Chọn đơn để ghi nhận khách đã thanh toán.', html: U.select({ id: 'orderId', ph: '— Phiếu thu lẻ (không gắn đơn) —', value: v.orderId, options: orderOpts(), attrs: locked ? 'disabled' : '' }) })
-      : '<div class="form-grid">' + U.field({ id: 'tourId', label: 'Tour liên quan', html: U.select({ id: 'tourId', ph: '— Phiếu chi lẻ (không gắn tour) —', value: v.tourId, options: tourOpts(), attrs: locked ? 'disabled' : '' }) }) +
+      : U.field({ id: 'expenseType', label: 'Loại chi', req: true, html: U.select({ id: 'expenseType', ph: '— Chọn loại chi —', value: curType, options: K.EXPENSE_TYPES.map(e => ({ v: e.k, l: e.l })), attrs: lockType ? 'disabled' : '' }) }) +
+        U.field({ id: 'expenseSub', label: 'Khoản mục văn phòng', req: true, html: U.select({ id: 'expenseSub', ph: '— Chọn khoản mục —', value: rec ? rec.expenseSub : '', options: K.OFFICE_ITEMS.map(x => ({ v: x, l: x })) }) }) +
+        '<div class="form-grid">' + U.field({ id: 'tourId', label: 'Tour liên quan', html: U.select({ id: 'tourId', ph: '— Phiếu chi lẻ (không gắn tour) —', value: v.tourId, options: tourOpts(), attrs: locked ? 'disabled' : '' }) }) +
         U.field({ id: 'lineId', label: 'Dịch vụ NCC trong dự trù', html: '<select class="inp" id="lineId"' + (locked && opts.lineId ? ' disabled' : '') + '></select>' }) + '</div>';
+    const remField = isThu ? '' : U.field({ id: 'remDue', label: 'Hạn thanh toán số tiền còn lại', hint: 'Chi một phần cho NCC — ngày sẽ thanh toán phần còn lại.', html: U.input({ id: 'remDue', type: 'date', value: '' }) });
 
     const html = '<div class="form-grid">' +
       U.field({ id: 'date', label: 'Ngày lập phiếu', req: true, html: U.input({ id: 'date', type: 'date', value: v.date }) }) +
@@ -88,7 +92,7 @@
       U.field({ id: 'amount', label: 'Số tiền (₫)', req: true, html: U.input({ id: 'amount', money: true, value: v.amount || '' }) }) +
       U.field({ id: 'party', label: isThu ? 'Người nộp tiền' : 'Người nhận tiền', req: true, html: U.input({ id: 'party', value: v.party }) }) + '</div>' +
       U.field({ id: 'content', label: isThu ? 'Lý do thu' : 'Lý do chi', req: true, html: U.input({ id: 'content', value: v.content }) }) +
-      '<div class="cell-sub" id="vHint"></div>';
+      remField + '<div class="cell-sub" id="vHint"></div>';
 
     U.modal({
       title: rec ? 'Sửa phiếu ' + (isThu ? 'thu ' : 'chi ') + rec.id : (isThu ? 'Tạo phiếu thu' : 'Tạo phiếu chi'), size: 'md', static: true, body: html,
@@ -134,14 +138,44 @@
           if (!rec && v.lineId) { const t = C.tour(v.tourId), l = t && t.budget.find(x => x.id === v.lineId); if (l) { const s = C.supplier(l.supplierId) || {}; $('#party').value = s.name || ''; $('#content').value = 'Thanh toán ' + l.service + ' - Tour ' + t.id; $('#amount').value = U.fmt(C.lineRemain(t, l)); } }
         }
         showHint();
+        if (!isThu) {
+          let auto = '';
+          const autoFor = () => { const ty = $('#expenseType').value, sub = $('#expenseSub').value;
+            return { luong: 'Chi lương nhân viên', thuenha: 'Chi tiền thuê nhà / văn phòng', vanphong: 'Chi phí văn phòng' + (sub ? ' - ' + sub : ''), tiepkhach: 'Chi phí tiếp khách', thue: 'Nộp thuế' }[ty] || ''; };
+          const syncRem = () => {
+            const t = C.tour($('#tourId').value), l = t && t.budget.find(x => x.id === $('#lineId').value), box = $('[data-f="remDue"]');
+            const max = l ? C.lineRemain(t, l) + (rec && rec.lineId === l.id ? rec.amount : 0) : 0, amt = U.money$(b, 'amount');
+            const show = !!(l && amt > 0 && amt < max);
+            box.style.display = show ? '' : 'none';
+            if (show && !$('#remDue').value) $('#remDue').value = l.remainDue || l.payDue || '';
+          };
+          const syncType = () => {
+            const ty = $('#expenseType').value;
+            $('[data-f="expenseSub"]').style.display = ty === 'vanphong' ? '' : 'none';
+            $('[data-f="lineId"]').style.display = ty === 'ncc' ? '' : 'none';
+            if (ty !== 'ncc') { $('#lineId').value = ''; }
+            const c = $('#content'), nt = autoFor(); if (!rec && (!c.value || c.value === auto)) c.value = nt; auto = nt;
+            showHint(); syncRem();
+          };
+          $('#expenseType').addEventListener('change', syncType); $('#expenseSub').addEventListener('change', syncType);
+          b.addEventListener('input', e => { if (e.target.id === 'amount') syncRem(); });
+          $('#lineId').addEventListener('change', syncRem); $('#tourId').addEventListener('change', syncRem);
+          syncType();
+        }
       },
       foot: [{ label: 'Hủy' }, {
         label: rec ? 'Lưu thay đổi' : (isThu ? 'Lập phiếu thu' : 'Lập phiếu chi'), icon: 'check', cls: 'btn-primary', onClick: async h => {
           const b = h.body, $ = s => b.querySelector(s); U.clearErr(b); let ok = true;
-          const orderId = isThu ? $('#orderId').value : '', tourId = isThu ? '' : $('#tourId').value, lineId = isThu ? '' : $('#lineId').value;
+          const orderId = isThu ? $('#orderId').value : '', tourId = isThu ? '' : $('#tourId').value, lineId = (isThu || $('#expenseType').value !== 'ncc') ? '' : $('#lineId').value;
           const k = (b.querySelector('input[name="akind"]:checked') || {}).value, accId = $('#accountId').value, amount = U.money$(b, 'amount');
           if (!U.val(b, 'date')) ok = U.invalid(b, 'date', 'Chọn ngày lập phiếu');
           if (!k) ok = U.invalid(b, 'akind', 'Vui lòng chọn tài khoản cá nhân hoặc tài khoản công ty'); else if (!accId) ok = U.invalid(b, 'accountId', 'Vui lòng chọn tài khoản cụ thể');
+          const eType = isThu ? '' : $('#expenseType').value, eSub = isThu ? '' : $('#expenseSub').value;
+          if (!isThu) {
+            if (!eType) ok = U.invalid(b, 'expenseType', 'Vui lòng chọn loại chi');
+            else if (eType === 'vanphong' && !eSub) ok = U.invalid(b, 'expenseSub', 'Chọn khoản mục văn phòng (điện, nước, internet, văn phòng phẩm)');
+            else if (eType === 'hdv' && !tourId) ok = U.invalid(b, 'tourId', 'Chọn tour của hướng dẫn viên');
+          }
           if (amount <= 0) ok = U.invalid(b, 'amount', 'Số tiền phải lớn hơn 0');
           if (!U.val(b, 'party')) ok = U.invalid(b, 'party', isThu ? 'Nhập người nộp tiền' : 'Nhập người nhận tiền');
           if (!U.val(b, 'content')) ok = U.invalid(b, 'content', 'Nhập lý do');
@@ -158,10 +192,12 @@
           let supplierId = '', linkOrder = orderId;
           if (!isThu && tourId) { const t = C.tour(tourId); linkOrder = t.orderId; if (lineId) supplierId = (t.budget.find(x => x.id === lineId) || {}).supplierId || ''; }
           const data = { date: U.val(b, 'date'), accountId: accId, amount, party: U.val(b, 'party'), content: U.val(b, 'content'), orderId: linkOrder, tourId, lineId, supplierId };
+          if (!isThu) { data.expenseType = eType; data.expenseSub = eType === 'vanphong' ? eSub : ''; }
           let saved;
           if (rec) { Object.assign(rec, data); saved = rec; U.toast('Đã cập nhật phiếu', rec.id); }
           else { saved = Object.assign({ id: Store.nextId(isThu ? 'PT' : 'PC', 4), kind }, data); Store.state.vouchers.push(saved);
             U.toast('Đã lập phiếu ' + (isThu ? 'thu ' : 'chi ') + saved.id, U.money(amount) + ' · ' + accLabel(C.account(accId)), 'success', { label: 'In / Xuất PDF →', fn: () => printVoucher(saved.id) }); }
+          if (!isThu && lineId && $('[data-f="remDue"]').style.display !== 'none') { const t2 = C.tour(tourId), l2 = t2 && t2.budget.find(x => x.id === lineId); if (l2) l2.remainDue = U.val(b, 'remDue'); }
           Store.save(); h.close();
           if (opts.onSaved) opts.onSaved(saved); if (body) renderList(); if (App.refreshChrome) App.refreshChrome();
         }
@@ -180,7 +216,7 @@
       '<div class="doc-meta" style="grid-template-columns:1fr">' +
       '<div><span>Họ tên người ' + (isThu ? 'nộp' : 'nhận') + ' tiền:</span> <b>' + U.esc(v.party) + '</b></div>' +
       (addr ? '<div><span>Địa chỉ:</span> ' + U.esc(addr) + '</div>' : '') +
-      '<div><span>Lý do ' + (isThu ? 'nộp' : 'chi') + ':</span> ' + U.esc(v.content) + '</div>' +
+      '<div><span>Lý do ' + (isThu ? 'nộp' : 'chi') + ':</span> ' + U.esc(v.content) + '</div>' + (C.expenseLabel(v) ? '<div><span>Loại chi:</span> ' + U.esc(C.expenseLabel(v)) + '</div>' : '') +
       '<div><span>Số tiền:</span> <span class="doc-big">' + U.fmt(v.amount) + ' đồng</span></div>' +
       '<div><span>Viết bằng chữ:</span> <i>' + U.numWords(v.amount) + '</i></div>' +
       '<div><span>Tài khoản ' + (isThu ? 'nhận' : 'chi') + ' (' + (a.kind ? K.ACCOUNT_KINDS[a.kind] : '') + '):</span> ' + U.esc((a.bank || '') + ' — STK ' + (a.number || '') + ' — ' + (a.holder || '')) + '</div>' +

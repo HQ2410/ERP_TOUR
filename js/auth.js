@@ -1,3 +1,17 @@
+/* ============================================================================
+ * auth.js — Đăng nhập / phân quyền
+ *
+ * LƯU Ý QUAN TRỌNG: ứng dụng hiện chạy hoàn toàn trên trình duyệt, nên đăng
+ * nhập ở đây chỉ chặn người dùng thông thường, KHÔNG phải bảo mật thật (ai mở
+ * được DevTools vẫn đọc được dữ liệu trong localStorage). Khi nối với máy chủ,
+ * hãy thay Auth.login/Auth.current bằng API xác thực phía server.
+ *
+ * - Người dùng lưu riêng (key tourerp.users.v1) → không bị xóa khi “Nạp lại
+ *   dữ liệu mẫu”, “Xóa dữ liệu” hay khôi phục sao lưu.
+ * - Mật khẩu không lưu dạng thô: SHA-256 có muối (salt) + lặp 2.000 vòng.
+ * - Sai 5 lần liên tiếp → khóa đăng nhập tài khoản đó 60 giây.
+ * - Vai trò: admin (toàn quyền) · staff (mọi phân hệ trừ Hệ thống).
+ * ==========================================================================*/
 (function () {
   'use strict';
   const App = window.App, U = App.UI;

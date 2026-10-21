@@ -8,7 +8,7 @@
 
   const NAV = [
     { group: 'Tổng quan', items: [['dashboard', 'Tổng quan', 'house']] },
-    { group: 'Nghiệp vụ', items: [['customers', 'Khách hàng', 'users'], ['orders', 'Đơn hàng', 'file-invoice-dollar'], ['suppliers', 'Nhà cung cấp', 'handshake'], ['operations', 'Điều hành tour', 'route']] },
+    { group: 'Nghiệp vụ', items: [['customers', 'Khách hàng', 'users'], ['orders', 'Đơn hàng', 'file-invoice-dollar'], ['suppliers', 'Nhà cung cấp', 'handshake'], ['operations', 'Điều hành tour', 'route'], ['pricing', 'Tính giá tour', 'coins']] },
     { group: 'Tài chính', items: [['accounting', 'Kế toán', 'calculator'], ['reports', 'Báo cáo', 'chart-pie']] },
     { group: 'Quản trị', items: [['system', 'Hệ thống', 'gear']] }
   ];
@@ -24,6 +24,12 @@
         out.push({ ico: 'plane-departure', tone: 'blue', title: 'Tour ' + t.id + ' khởi hành ' + (d === 0 ? 'hôm nay' : 'sau ' + d + ' ngày'), desc: !t.budget.length ? 'Chưa lập dự trù dịch vụ.' : (unb ? unb + ' dịch vụ chưa gửi booking. ' : '') + (s.receivable ? 'Còn thu khách ' + U.money(s.receivable) + '.' : ''), go: '#/operations/' + t.id + (unb ? '/booking' : '') });
       }
     });
+    // Hạn thanh toán NCC (trong 3 ngày tới hoặc đã quá hạn)
+    Store.state.tours.filter(t => t.status !== 'quyettoan').forEach(t => t.budget.forEach(l => {
+      const d = C.lineDue(t, l); if (!d.due || d.remain <= 0) return; const left = U.daysBetween(today, d.due);
+      if (left > 3) return; const sp = C.supplier(l.supplierId) || {};
+      out.push({ ico: 'money-bill-wave', tone: left < 0 ? 'red' : 'orange', title: (left < 0 ? 'Quá hạn thanh toán NCC ' : 'Sắp đến hạn thanh toán NCC ') + (sp.name || '') + ' — Tour ' + t.id, desc: 'Còn ' + U.money(d.remain) + ' · hạn ' + U.fdate(d.due), go: '#/operations/' + t.id + '/budget' });
+    }));
     return out;
   }
 
@@ -54,10 +60,11 @@
   function search(qRaw) {
     const q = U.norm(qRaw), digits = qRaw.replace(/\D/g, ''), S = Store.state, res = [];
     if (!q) return res;
-    S.customers.forEach(c => { if (U.norm(c.name).includes(q) || U.norm(c.id).includes(q) || (digits.length >= 3 && c.phone.replace(/\D/g, '').includes(digits))) res.push({ ico: 'user', t: c.name, s: c.id + ' · ' + c.phone, go: '#/customers', q: c.name }); });
+    S.customers.forEach(c => { if (U.norm(c.name).includes(q) || U.norm(c.id).includes(q) || U.norm(c.taxCode).includes(q) || (digits.length >= 3 && [c.phone, c.contactPhone].some(x => String(x || '').replace(/\D/g, '').includes(digits)))) res.push({ ico: 'user', t: c.name, s: c.id + ' · ' + c.phone, go: '#/customers', q: c.name }); });
     S.orders.forEach(o => { const cu = C.customer(o.customerId) || {}; if (U.norm(o.id).includes(q) || U.norm(o.serviceName).includes(q) || U.norm(cu.name).includes(q)) res.push({ ico: 'file-invoice-dollar', t: o.id + ' — ' + o.serviceName, s: cu.name, go: '#/orders', q: o.id }); });
     S.tours.forEach(t => { const o = C.order(t.orderId) || {}, cu = C.customer(o.customerId) || {}; if (U.norm(t.id).includes(q) || U.norm(o.serviceName).includes(q)) res.push({ ico: 'route', t: 'Tour ' + t.id, s: (o.serviceName || '') + ' · ' + (cu.name || ''), go: '#/operations/' + t.id }); });
     S.suppliers.forEach(s => { if (U.norm(s.name).includes(q) || U.norm(s.id).includes(q) || U.norm(s.province).includes(q)) res.push({ ico: 'handshake', t: s.name, s: s.id + ' · ' + s.type + ' · ' + s.province, go: '#/suppliers', q: s.name }); });
+    (S.quotes || []).forEach(x => { if (U.norm(x.id).includes(q) || U.norm(x.route).includes(q)) res.push({ ico: 'coins', t: x.id + ' — Báo giá ' + x.route, s: [x.duration, x.standard, x.guests + ' khách'].filter(Boolean).join(' · '), go: '#/pricing/' + x.id }); });
     S.vouchers.forEach(v => { if (U.norm(v.id).includes(q) || U.norm(v.content).includes(q)) res.push({ ico: 'receipt', t: v.id + ' — ' + U.money(v.amount), s: v.content, go: '#/accounting', q: v.id }); });
     return res.slice(0, 9);
   }

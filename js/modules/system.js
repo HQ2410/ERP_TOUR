@@ -7,16 +7,16 @@
   'use strict';
   const App = window.App, U = App.UI, C = App.Calc, Store = App.Store, K = App.CONST;
   let host, tab = 'services';
-  const TABS = [{ key: 'services', label: 'Danh mục dịch vụ', icon: 'tags' }, { key: 'accounts', label: 'Tài khoản ngân hàng', icon: 'building-columns' }, { key: 'users', label: 'Người dùng', icon: 'user-shield' }, { key: 'company', label: 'Thông tin công ty', icon: 'building' }, { key: 'data', label: 'Dữ liệu & sao lưu', icon: 'database' }];
-  const draw = () => { U.$('#syTabs', host).innerHTML = U.tabs(TABS, tab); const b = U.$('#syBody', host); b.innerHTML = ({ services: paneServices, accounts: paneAccounts, users: paneUsers, company: paneCompany, data: paneData }[tab])(); };
+  const TABS = [{ key: 'services', label: 'Danh mục dịch vụ', icon: 'tags' }, { key: 'settings', label: 'Cài đặt', icon: 'sliders' }, { key: 'accounts', label: 'Tài khoản ngân hàng', icon: 'building-columns' }, { key: 'users', label: 'Người dùng', icon: 'user-shield' }, { key: 'company', label: 'Thông tin công ty', icon: 'building' }, { key: 'data', label: 'Dữ liệu & sao lưu', icon: 'database' }];
+  const draw = () => { U.$('#syTabs', host).innerHTML = U.tabs(TABS, tab); const b = U.$('#syBody', host); b.innerHTML = ({ services: paneServices, settings: paneSettings, accounts: paneAccounts, users: paneUsers, company: paneCompany, data: paneData }[tab])(); };
 
   /* ------------------------------------------------------------- DỊCH VỤ */
   function paneServices() {
     const list = Store.state.settings.services;
-    return '<div class="toolbar"><div class="muted" style="font-size:12.8px">Danh mục dùng khi tạo đơn hàng. Có thể thêm, sửa, ngừng sử dụng hoặc xóa dịch vụ.</div><div class="spacer"></div><button class="btn btn-primary btn-sm" data-act="addSvc"><i class="fa-solid fa-plus"></i>Thêm dịch vụ</button></div>' +
+    return '<div class="toolbar"><div class="muted" style="font-size:12.8px">Danh mục dùng khi tạo đơn hàng (đơn giá nhập trực tiếp trên từng đơn, không cố định theo dịch vụ). Có thể thêm, sửa, ngừng sử dụng hoặc xóa dịch vụ.</div><div class="spacer"></div><button class="btn btn-primary btn-sm" data-act="addSvc"><i class="fa-solid fa-plus"></i>Thêm dịch vụ</button></div>' +
       U.table({ rows: list.slice().reverse(), st: { page: 1 }, size: 500, nopager: true, empty: U.empty('tags', 'Chưa có dịch vụ', 'Thêm dịch vụ để bắt đầu tạo đơn hàng.'),
         cols: [{ label: 'Mã', render: s => '<span class="code">' + s.id + '</span>' }, { label: 'Tên dịch vụ', render: s => '<span class="cell-main">' + U.esc(s.name) + '</span>' }, { label: 'Nhóm', render: s => U.badge(s.group, 'slate', true) }, { label: 'Đơn vị', render: s => U.esc(s.unit) },
-          { label: 'Đơn giá', cls: 'right', render: s => '<b>' + U.money(s.price) + '</b>' }, { label: 'Số đơn', cls: 'center', render: s => Store.state.orders.filter(o => o.serviceId === s.id).length },
+          { label: 'Số đơn', cls: 'center', render: s => Store.state.orders.filter(o => o.serviceId === s.id).length },
           { label: 'Trạng thái', render: s => '<button class="btn btn-xs" data-act="toggleSvc" data-id="' + s.id + '">' + (s.active ? U.badge('Đang dùng', 'green') : U.badge('Ngừng', 'slate')) + '</button>' },
           { label: '', cls: 'right', render: s => '<div class="row-actions">' + U.iconBtn('editSvc', s.id, 'pen', 'Sửa') + U.iconBtn('delSvc', s.id, 'trash', 'Xóa') + '</div>' }] });
   }
@@ -25,18 +25,42 @@
     U.modal({ title: s ? 'Sửa dịch vụ ' + s.id : 'Thêm dịch vụ', size: 'md', static: true,
       body: U.field({ id: 'name', label: 'Tên dịch vụ', req: true, html: U.input({ id: 'name', value: s ? s.name : '' }) }) + '<div class="form-grid">' +
         U.field({ id: 'group', label: 'Nhóm dịch vụ', req: true, html: U.select({ id: 'group', value: s ? s.group : K.SERVICE_GROUPS[0], options: K.SERVICE_GROUPS.map(g => ({ v: g, l: g })) }) }) +
-        U.field({ id: 'unit', label: 'Đơn vị tính', req: true, html: U.input({ id: 'unit', value: s ? s.unit : 'khách', ph: 'khách, vé, ngày…' }) }) + '</div>' +
-        U.field({ id: 'price', label: 'Đơn giá mặc định (₫)', req: true, html: U.input({ id: 'price', money: true, value: s ? s.price : '' }) }),
+        U.field({ id: 'unit', label: 'Đơn vị tính', req: true, html: U.input({ id: 'unit', value: s ? s.unit : 'khách', ph: 'khách, vé, ngày…' }) }) + '</div>',
       foot: [{ label: 'Hủy' }, { label: s ? 'Lưu thay đổi' : 'Thêm dịch vụ', icon: 'check', cls: 'btn-primary', onClick: h => {
-        const b = h.body; U.clearErr(b); let ok = true; const d = { name: U.val(b, 'name'), group: U.val(b, 'group'), unit: U.val(b, 'unit'), price: U.money$(b, 'price') };
+        const b = h.body; U.clearErr(b); let ok = true; const d = { name: U.val(b, 'name'), group: U.val(b, 'group'), unit: U.val(b, 'unit') };
         if (!d.name) ok = U.invalid(b, 'name', 'Nhập tên dịch vụ'); else if (Store.state.settings.services.some(x => U.norm(x.name) === U.norm(d.name) && (!s || x.id !== s.id))) ok = U.invalid(b, 'name', 'Dịch vụ này đã tồn tại');
-        if (!d.unit) ok = U.invalid(b, 'unit', 'Nhập đơn vị'); if (d.price <= 0) ok = U.invalid(b, 'price', 'Đơn giá phải lớn hơn 0');
+        if (!d.unit) ok = U.invalid(b, 'unit', 'Nhập đơn vị');
         if (!ok) { U.focusFirstInvalid(b); return; }
         if (s) { Object.assign(s, d); } else Store.state.settings.services.push(Object.assign({ id: Store.nextId('DV', 2), active: true }, d));
         Store.save(); h.close(); draw(); U.toast(s ? 'Đã cập nhật dịch vụ' : 'Đã thêm dịch vụ', d.name);
       } }] });
   }
 
+
+  /* ------------------------------------------------------------- CÀI ĐẶT */
+  const typeUse = name => ({ sup: Store.state.suppliers.filter(x => x.type === name).length, lines: Store.state.tours.reduce((n, t) => n + t.budget.filter(l => l.type === name).length, 0) });
+  function paneSettings() {
+    const types = Store.state.settings.serviceTypes;
+    return '<div class="tab-pane" style="max-width:760px"><div class="sec-title"><i class="fa-solid fa-sliders"></i>Loại hình dịch vụ</div>' +
+      '<div class="muted" style="font-size:12.8px;margin-bottom:12px">Danh sách này dùng cho loại hình của nhà cung cấp và ô “Tên dịch vụ” khi lập dự trù tour (Lưu trú, Vận chuyển, Nhà hàng, Hướng dẫn viên, Vé tham quan…). Loại hình đang được sử dụng thì không xóa được.</div>' +
+      '<div class="row-gap mb" style="flex-wrap:nowrap"><input class="inp" id="newType" placeholder="Tên loại hình mới, VD: Visa, Bảo hiểm…" maxlength="40" style="flex:1;min-width:0"><button class="btn btn-primary" data-act="addType"><i class="fa-solid fa-plus"></i>Thêm loại hình</button></div><div class="field" data-f="newType"><div class="err"></div></div>' +
+      U.table({ rows: types.map(n => Object.assign({ n }, typeUse(n))), st: { page: 1 }, size: 200, nopager: true, empty: U.empty('tags', 'Chưa có loại hình', 'Thêm loại hình dịch vụ đầu tiên.'),
+        cols: [{ label: 'Loại hình dịch vụ', render: r => U.badge(r.n, K.tone(r.n), true) }, { label: 'Số NCC', cls: 'center', render: r => r.sup }, { label: 'Dòng dự trù', cls: 'center', render: r => r.lines },
+          { label: '', cls: 'right', render: r => '<div class="row-actions">' + U.iconBtn('delType', r.n, 'trash', r.sup || r.lines ? 'Đang được sử dụng' : 'Xóa loại hình') + '</div>' }] }) + '</div>';
+  }
+  function addType() {
+    const inp = U.$('#newType', host), name = inp.value.trim().replace(/\s+/g, ' ');
+    U.clearErr(host);
+    if (name.length < 2) { U.invalid(host, 'newType', 'Nhập tên loại hình (tối thiểu 2 ký tự)'); return; }
+    if (Store.state.settings.serviceTypes.some(x => U.norm(x) === U.norm(name))) { U.invalid(host, 'newType', 'Loại hình “' + name + '” đã tồn tại'); return; }
+    Store.state.settings.serviceTypes.push(name); Store.save(); draw(); U.toast('Đã thêm loại hình dịch vụ', name);
+  }
+  async function delType(name) {
+    const u = typeUse(name);
+    if (u.sup || u.lines) { U.toast('Không thể xóa', '“' + name + '” đang dùng cho ' + u.sup + ' nhà cung cấp và ' + u.lines + ' dòng dự trù.', 'warning'); return; }
+    if (!(await U.confirm({ title: 'Xóa loại hình dịch vụ', message: 'Xóa loại hình <b>' + U.esc(name) + '</b>?', ok: 'Xóa', danger: true }))) return;
+    Store.state.settings.serviceTypes = Store.state.settings.serviceTypes.filter(x => x !== name); Store.save(); draw(); U.toast('Đã xóa loại hình dịch vụ', name);
+  }
 
   /* ------------------------------------------------------------ NGƯỜI DÙNG */
   function paneUsers() {
@@ -130,6 +154,7 @@
       (i.lastError ? '<dt>Lỗi gần nhất</dt><dd class="money-neg" style="font-weight:600">' + U.esc(i.lastError) + '</dd>' : '') + '</dl>' +
       '<div class="tbl-wrap"><table class="tbl" style="min-width:0"><thead><tr><th>Dữ liệu</th><th>Bảng KIO</th><th class="right">Số bản ghi (máy này)</th></tr></thead><tbody>' +
       T.localCounts().map(x => '<tr><td>' + U.esc(x.label) + '</td><td><span class="code">' + U.esc(x.table) + '</span></td><td class="right">' + x.count + '</td></tr>').join('') + '</tbody></table></div>' +
+      ((i.unavailable || []).length ? '<div class="callout warn mt"><i class="fa-solid fa-triangle-exclamation"></i><div>Máy chủ <b>chưa có bảng ' + i.unavailable.map(U.esc).join(', ') + '</b> nên dữ liệu này tạm chỉ lưu trên máy. Nhờ quản trị viên chạy <b>sql/kio-tables.sql</b> rồi bấm “Kết nối lại”.</div></div>' : '') +
       (i.hasBackup ? '<div class="callout warn mt"><i class="fa-solid fa-box-archive"></i><div>Có <b>bản sao dữ liệu cũ</b> của trình duyệt này (được giữ lại khi tải dữ liệu từ máy chủ lần đầu). <button class="btn btn-xs" data-act="oldBackup">Tải về (JSON)</button></div></div>' : '') + '</div></div>';
     return '<div class="tab-pane">' + server + '<div class="kpi-row">' + U.mkpi({ icon: 'users', tone: 'blue', label: 'Khách hàng', value: S.customers.length }) + U.mkpi({ icon: 'file-invoice-dollar', tone: 'indigo', label: 'Đơn hàng', value: S.orders.length }) +
       U.mkpi({ icon: 'handshake', tone: 'teal', label: 'Nhà cung cấp', value: S.suppliers.length }) + U.mkpi({ icon: 'receipt', tone: 'orange', label: 'Phiếu thu/chi', value: S.vouchers.length }) + '</div>' +
@@ -151,6 +176,7 @@
       case 'delSvc': { const s = C.service(id), n = S.orders.filter(o => o.serviceId === id).length;
         if (!(await U.confirm({ title: 'Xóa dịch vụ', message: 'Xóa dịch vụ <b>' + U.esc(s.name) + '</b>?' + (n ? '<br>' + n + ' đơn hàng đang dùng dịch vụ này vẫn giữ nguyên tên dịch vụ đã lưu.' : ''), ok: 'Xóa', danger: true }))) break;
         S.settings.services = S.settings.services.filter(x => x.id !== id); Store.save(); draw(); U.toast('Đã xóa dịch vụ', s.name); break; }
+      case 'addType': addType(); break; case 'delType': delType(id); break;
       case 'addUser': userForm(); break; case 'editUser': userForm(id); break; case 'resetUser': resetForm(id); break;
       case 'toggleUser': { const u = App.Auth.users().find(x => x.id === id), e = App.Auth.updateUser(id, { name: u.name, role: u.role, active: !u.active }); if (e) U.toast('Không thực hiện được', e, 'warning'); else { draw(); U.toast(u.active ? 'Đã mở khóa tài khoản' : 'Đã khóa tài khoản', u.username); } break; }
       case 'delUser': { const u = App.Auth.users().find(x => x.id === id), why = (() => { const me = App.Auth.current(); if (me && me.id === id) return 'Bạn không thể xóa tài khoản đang đăng nhập'; if (u.role === 'admin' && u.active && App.Auth.activeAdmins() <= 1) return 'Phải còn ít nhất một quản trị viên đang hoạt động'; return ''; })();

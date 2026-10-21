@@ -24,21 +24,24 @@
   const SNAP_KEY = 'tourerp.synced.v1', DIRTY_KEY = 'tourerp.dirty', BACKUP_KEY = 'tourerp.localbackup';
   const S = () => Store.state;
 
-  const DATA_NAMES = ['config', 'services', 'accounts', 'customers', 'suppliers', 'orders', 'tours', 'vouchers'];
+  const DATA_NAMES = ['config', 'services', 'accounts', 'customers', 'suppliers', 'orders', 'tours', 'vouchers', 'quotes'];
+  // Bảng thêm sau này: nếu máy chủ chưa có bảng thì KHÔNG coi là lỗi kết nối — dữ liệu đó chỉ lưu trên máy cho tới khi tạo bảng.
+  const OPTIONAL = new Set(['quotes']), unavailable = new Set();
   const PUSH_ORDER = DATA_NAMES.concat('users');
   const REG = {
     users: { get: () => App.Auth.rawUsers(), set: v => App.Auth.setUsers(v) },
-    config: { get: () => [{ id: 'config', company: S().settings.company, mailApi: S().settings.mailApi || '' }], set: v => { const c = v[0]; if (c) { if (c.company) S().settings.company = c.company; S().settings.mailApi = c.mailApi || ''; } } },
+    config: { get: () => [{ id: 'config', company: S().settings.company, mailApi: S().settings.mailApi || '', serviceTypes: S().settings.serviceTypes }], set: v => { const c = v[0]; if (c) { if (c.company) S().settings.company = c.company; S().settings.mailApi = c.mailApi || ''; if (Array.isArray(c.serviceTypes) && c.serviceTypes.length) S().settings.serviceTypes = c.serviceTypes; } } },
     services: { get: () => S().settings.services, set: v => { S().settings.services = v; } },
     accounts: { get: () => S().settings.accounts, set: v => { S().settings.accounts = v; } },
     customers: { get: () => S().customers, set: v => { S().customers = v; } },
     suppliers: { get: () => S().suppliers, set: v => { S().suppliers = v; } },
     orders: { get: () => S().orders, set: v => { S().orders = v; } },
     tours: { get: () => S().tours, set: v => { S().tours = v; } },
-    vouchers: { get: () => S().vouchers, set: v => { S().vouchers = v; } }
+    vouchers: { get: () => S().vouchers, set: v => { S().vouchers = v; } },
+    quotes: { get: () => S().quotes, set: v => { S().quotes = v; } }
   };
-  const LABEL = { users: 'Người dùng', config: 'Cấu hình', services: 'Dịch vụ', accounts: 'Tài khoản NH', customers: 'Khách hàng', suppliers: 'Nhà cung cấp', orders: 'Đơn hàng', tours: 'Tour', vouchers: 'Phiếu thu/chi' };
-  const PREFIX = { customers: () => ['KH', 4], suppliers: () => ['NCC', 3], orders: () => ['DH', 4], services: () => ['DV', 2], accounts: () => ['TK', 2], vouchers: r => [r.kind === 'thu' ? 'PT' : 'PC', 4] };
+  const LABEL = { users: 'Người dùng', config: 'Cấu hình', services: 'Dịch vụ', accounts: 'Tài khoản NH', customers: 'Khách hàng', suppliers: 'Nhà cung cấp', orders: 'Đơn hàng', tours: 'Tour', vouchers: 'Phiếu thu/chi', quotes: 'Báo giá' };
+  const PREFIX = { customers: r => (r && r.type === 'business') ? ['DN', 2] : ['KL', 2], suppliers: () => ['NCC', 3], orders: () => ['DH', 4], services: () => ['DV', 2], accounts: () => ['TK', 2], quotes: () => ['BG', 4], vouchers: r => [r.kind === 'thu' ? 'PT' : 'PC', 4] };
   const MISSING = /doesn'?t exist|does not exist|not exist|không tồn tại|1146|42S02|unknown table|no such table|chưa có bảng/i;
 
   /* ----------------------------------------------------------- TIỆN ÍCH */
@@ -82,21 +85,28 @@
     let status = 'local';
     if (mode === 'connecting') status = 'connecting'; else if (mode === 'offline') status = 'offline';
     else if (mode === 'online') status = busy ? 'syncing' : lastError ? 'error' : p > 0 ? 'waiting' : 'synced';
-    return { mode, status, pending: p, lastSync, lastError, tables: CFG ? CFG.tables : {}, hasBackup: !!localStorage.getItem(BACKUP_KEY) };
+    return { mode, status, pending: p, lastSync, lastError, tables: CFG ? CFG.tables : {}, hasBackup: !!localStorage.getItem(BACKUP_KEY), unavailable: Array.from(unavailable).map(n => CFG.tables[n]) };
   }
   const emit = () => { const i = info(); listeners.forEach(f => { try { f(i); } catch (e) { /* noop */ } }); };
   const toastErr = (title, e) => { if (Date.now() - lastToast > 20000) { lastToast = Date.now(); U.toast(title, friendly(e), 'danger'); } };
 
   /* ------------------------------------------------------------- ĐỌC KIO */
   async function readTable(name) {
-    const rows = await withTimeout(KioStore.listCollection(CFG.tables[name], { force: true }), 30000);
-    return (rows || []).filter(r => r && r.id != null);
+    try {
+      const rows = await withTimeout(KioStore.listCollection(CFG.tables[name], { force: true }), 30000);
+      return (rows || []).filter(r => r && r.id != null);
+    } catch (e) {
+      if (OPTIONAL.has(name) && MISSING.test(String((e && e.message) || e))) { unavailable.add(name); return []; }
+      throw e;
+    }
   }
   async function readAll(names) { const out = {}; for (const n of names) out[n] = await readTable(n); return out; }
 
   // Áp dữ liệu máy chủ vào state. recover=true: giữ lại thay đổi cục bộ chưa gửi (so với snapshot).
   function applyRemote(remotes, recover) {
     Object.keys(remotes).forEach(n => {
+      if (unavailable.has(n)) return;
+      if (OPTIONAL.has(n) && !remotes[n].length && !snap[n]) { snap[n] = {}; return; }   // nhóm mới, máy chủ chưa có gì: giữ dữ liệu cục bộ, sẽ đẩy lên
       const R = REG[n], remote = remotes[n].slice().sort(natCmp); let result = remote;
       if (recover && snap[n]) {
         const local = R.get(), cur = mapOf(local), old = snap[n], m = new Map(remote.map(r => [String(r.id), r]));
@@ -106,6 +116,7 @@
       }
       R.set(result); snap[n] = mapOf(remote);
     });
+    if (Store.migrate) Store.migrate();   // nâng cấp dữ liệu cũ từ máy chủ lên cấu trúc mới (idempotent)
     saveSnap();
   }
 
@@ -127,19 +138,21 @@
   async function loadData() {
     if (mode !== 'online') return { mode };
     try {
+      unavailable.clear();
       const remotes = await withTimeout(readAll(DATA_NAMES), 60000, 'Tải dữ liệu từ KIO quá thời gian chờ');
-      if (DATA_NAMES.every(n => !remotes[n].length)) return { mode, empty: true };
+      if (DATA_NAMES.every(n => OPTIONAL.has(n) || !remotes[n].length)) return { mode, empty: true };
       const everSynced = DATA_NAMES.some(n => snap[n] && Object.keys(snap[n]).length);
       if (!everSynced && !localIsDemo()) { try { localStorage.setItem(BACKUP_KEY, JSON.stringify(S())); U.toast('Đã giữ bản sao dữ liệu cũ của trình duyệt', 'Xem lại ở Hệ thống → Dữ liệu & sao lưu.', 'info'); } catch (e) { /* noop */ } }
       applyRemote(remotes, isDirty() && everSynced);
-      DATA_NAMES.forEach(n => ready.add(n)); Store.persist(); setDirty(pending() > 0); lastError = ''; lastSync = U.nowISO(); emit(); schedule(300);
+      DATA_NAMES.forEach(n => { if (!unavailable.has(n)) ready.add(n); }); Store.persist(); setDirty(pending() > 0); lastError = '';
+      if (unavailable.size) U.toast('Máy chủ chưa có bảng ' + Array.from(unavailable).map(n => CFG.tables[n]).join(', '), 'Dữ liệu này tạm lưu trên máy. Chạy sql/kio-tables.sql rồi bấm “Kết nối lại”.', 'warning'); lastSync = U.nowISO(); emit(); schedule(300);
       return { mode };
     } catch (e) { goOffline(e); return { mode: 'offline', error: e }; }
   }
   // Máy chủ trống: chọn nguồn dữ liệu khởi tạo (local = dùng dữ liệu đang có trong trình duyệt)
   function initServer(choice) {
     if (choice === 'demo') Store.useSeed(); else if (choice === 'blank') Store.useBlank();
-    DATA_NAMES.forEach(n => { snap[n] = {}; ready.add(n); }); saveSnap(); Store.persist(); setDirty(true);
+    DATA_NAMES.forEach(n => { if (unavailable.has(n)) return; snap[n] = {}; ready.add(n); }); saveSnap(); Store.persist(); setDirty(true);
     return flush();
   }
 
@@ -197,6 +210,7 @@
   }
   async function replaceAllNow(reason) {
     for (const name of DATA_NAMES) {
+      if (unavailable.has(name)) continue;
       const items = clone(REG[name].get());
       await retry(() => KioStore.replaceCollection(CFG.tables[name], items, { allowEmpty: true, reason }));
       snap[name] = mapOf(items); ready.add(name);
@@ -229,7 +243,7 @@
     if (!manual && (isDirty() || pending() > 0 || document.hidden || document.querySelector('.modal.show'))) return false;
     try {
       const remotes = await readAll(DATA_NAMES.concat('users')); let changed = false;
-      Object.keys(remotes).forEach(n => { if (!sameMap(mapOf(remotes[n].slice().sort(natCmp)), mapOf(REG[n].get()))) changed = true; });
+      Object.keys(remotes).forEach(n => { if (!unavailable.has(n) && !sameMap(mapOf(remotes[n].slice().sort(natCmp)), mapOf(REG[n].get()))) changed = true; });
       if (changed) {
         applyRemote(remotes, pending() > 0); Store.persist();
         if (App.Router && App.Auth.current()) App.Router.refresh();

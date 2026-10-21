@@ -7,7 +7,7 @@
 (function () {
   'use strict';
   const App = window.App, U = App.UI, C = App.Calc, Store = App.Store;
-  const st = { tab: 'overview', from: '', to: '', view: 'order', preset: 'year' };
+  const st = { tab: 'overview', from: '', to: '', view: 'order', preset: 'year', staff: '' };
   let host, exp = null;
   const COL = { blue: '#2563eb', green: '#15a34a', red: '#dc2626', orange: '#ea6a0c', teal: '#0d9488', indigo: '#5b48d6', slate: '#64748b' };
   const PAL = [COL.blue, COL.teal, COL.orange, COL.indigo, COL.green, COL.red, COL.slate];
@@ -109,6 +109,40 @@
       after() { U.chart(U.$('#chPf'), { type: 'bar', data: { labels: rs.map(r => r.o.id), datasets: [{ label: 'Lợi nhuận', data: rs.map(r => r.profit), backgroundColor: rs.map(r => r.profit >= 0 ? COL.green : COL.red), borderRadius: 5 }] }, options: { scales: { y: moneyAxis }, plugins: { legend: { display: false } } } }); } };
   }
 
+  /* ============================================================ THEO NHÂN VIÊN */
+  const NONE = '__none';
+  function tabStaff() {
+    const rs = orderRows(), key = r => r.o.ownerId || NONE, m = {};
+    App.Auth.users().filter(u => u.active).forEach(u => { m[u.id] = { id: u.id, name: u.name, n: 0, gross: 0, disc: 0, rev: 0, paid: 0, cost: 0 }; });
+    rs.forEach(r => { const k = key(r), x = m[k] = m[k] || { id: k, name: k === NONE ? 'Chưa phân công' : (C.ownerName(r.o) || k), n: 0, gross: 0, disc: 0, rev: 0, paid: 0, cost: 0 };
+      x.n++; x.gross += r.gross; x.disc += r.disc; x.rev += r.rev; x.paid += r.paid; x.cost += r.cost; });
+    const rows = Object.values(m).filter(x => x.n || x.id !== NONE).sort((a, b) => b.rev - a.rev);
+    if (st.staff && !m[st.staff]) st.staff = '';
+    const sel = st.staff ? m[st.staff] : null, list = sel ? rs.filter(r => key(r) === st.staff) : [];
+    const cols = [{ label: 'Nhân viên', render: r => '<button type="button" class="ref-link" data-staff="' + U.esc(r.id) + '"><i class="fa-solid fa-user-tie"></i><b>' + U.esc(r.name) + '</b></button>' }, { label: 'Số đơn', cls: 'center', render: r => r.n },
+      num('Thành tiền', r => r.gross), num('Giảm giá / HH', r => r.disc), num('Doanh thu', r => r.rev, { render: r => '<b>' + U.money(r.rev) + '</b>' }), num('Đã thu', r => r.paid), num('Còn phải thu', r => Math.max(0, r.rev - r.paid)),
+      num('Chi phí dự trù', r => r.cost), num('Lợi nhuận', r => r.rev - r.cost, { render: r => '<b>' + U.signed(r.rev - r.cost) + '</b>' })];
+    const tot = f => App.sum(rows, f);
+    const foot = rows.length ? '<tr><td class="right">Tổng cộng</td><td class="center">' + tot(r => r.n) + '</td>' + [r => r.gross, r => r.disc, r => r.rev, r => r.paid, r => Math.max(0, r.rev - r.paid), r => r.cost].map(f => '<td class="right">' + U.money(tot(f)) + '</td>').join('') + '<td class="right">' + U.signed(tot(r => r.rev - r.cost)) + '</td></tr>' : '';
+    exp = sel
+      ? { filename: 'bao-cao-nhan-vien', sheet: 'Theo nhân viên', title: 'DOANH THU CỦA NHÂN VIÊN: ' + sel.name.toUpperCase(), subtitle: period(), headers: ['Mã đơn', 'Ngày tạo', 'Khách hàng', 'Dịch vụ', 'Doanh thu', 'Đã thu', 'Còn phải thu', 'Chi phí dự trù', 'Lợi nhuận'], moneyCols: [4, 5, 6, 7, 8],
+          rows: list.map(r => [r.o.id, U.fdate(r.o.date), r.cu.name || '', r.o.serviceName, r.rev, r.paid, Math.max(0, r.rev - r.paid), r.cost, r.profit]) }
+      : { filename: 'bao-cao-nhan-vien', sheet: 'Theo nhân viên', title: 'BÁO CÁO DOANH THU THEO NHÂN VIÊN', subtitle: period(), headers: ['Nhân viên', 'Số đơn', 'Thành tiền', 'Giảm giá / HH', 'Doanh thu', 'Đã thu', 'Còn phải thu', 'Chi phí dự trù', 'Lợi nhuận'], moneyCols: [2, 3, 4, 5, 6, 7, 8],
+          rows: rows.map(r => [r.name, r.n, r.gross, r.disc, r.rev, r.paid, Math.max(0, r.rev - r.paid), r.cost, r.rev - r.cost]) };
+    let h = '<div class="row-gap mb"><div class="field" style="margin:0"><label>Nhân viên</label><select class="inp" id="rStaff"><option value="">Tất cả nhân viên</option>' + rows.map(r => '<option value="' + U.esc(r.id) + '"' + (r.id === st.staff ? ' selected' : '') + '>' + U.esc(r.name) + '</option>').join('') + '</select></div></div>';
+    if (sel) {
+      h += '<div class="kpi-row">' + U.mkpi({ icon: 'user-tie', tone: 'indigo', label: 'Doanh thu — ' + sel.name, value: U.money(sel.rev), sub: sel.n + ' đơn hàng' }) + U.mkpi({ icon: 'circle-check', tone: 'green', label: 'Đã thu', value: U.money(sel.paid) }) +
+        U.mkpi({ icon: 'hand-holding-dollar', tone: 'orange', label: 'Còn phải thu', value: U.money(Math.max(0, sel.rev - sel.paid)) }) + U.mkpi({ icon: 'chart-line', tone: sel.rev - sel.cost >= 0 ? 'green' : 'red', label: 'Lợi nhuận', value: U.signed(sel.rev - sel.cost), sub: 'Biên ' + pct(sel.rev - sel.cost, sel.rev) }) + '</div>';
+    }
+    h += '<div class="card mb"><div class="card-head"><h3>Doanh thu theo nhân viên</h3></div><div class="card-body">' + canvas('chSt') + '</div></div>' + tbl(cols, rows, foot);
+    if (sel) {
+      const oc = [{ label: 'Mã đơn', render: r => '<span class="code">' + U.esc(r.o.id) + '</span>' }, { label: 'Ngày tạo', render: r => U.fdate(r.o.date) }, { label: 'Khách hàng', render: r => U.esc(r.cu.name || '') }, { label: 'Dịch vụ', render: r => U.esc(r.o.serviceName) },
+        num('Doanh thu', r => r.rev, { render: r => '<b>' + U.money(r.rev) + '</b>' }), num('Đã thu', r => r.paid), num('Còn phải thu', r => Math.max(0, r.rev - r.paid)), num('Lợi nhuận', r => r.profit, { render: r => U.signed(r.profit) })];
+      h += '<div class="sec-title" style="margin-top:18px"><i class="fa-solid fa-list"></i>Đơn hàng của ' + U.esc(sel.name) + '</div>' + tbl(oc, list, '');
+    }
+    return { html: h, after() { U.chart(U.$('#chSt'), { type: 'bar', data: { labels: rows.map(r => r.name), datasets: [{ label: 'Doanh thu', data: rows.map(r => r.rev), backgroundColor: rows.map(r => r.id === st.staff ? COL.green : COL.blue), borderRadius: 5 }, { label: 'Lợi nhuận', data: rows.map(r => r.rev - r.cost), backgroundColor: COL.teal, borderRadius: 5 }] }, options: { scales: { y: moneyAxis }, plugins: { legend: { position: 'bottom' } } } }); } };
+  }
+
   /* ================================================================ DÒNG TIỀN */
   function tabCash() {
     const vs = vouchers(), ms = months(vs.map(v => U.monthKey(v.date))); let run = 0;
@@ -134,7 +168,7 @@
   }
 
   const TABS = [{ key: 'overview', label: 'Tổng quan', icon: 'gauge-high', fn: tabOverview }, { key: 'revenue', label: 'Doanh thu', icon: 'sack-dollar', fn: tabRevenue }, { key: 'profit', label: 'Lợi nhuận', icon: 'chart-line', fn: tabProfit },
-    { key: 'cash', label: 'Dòng tiền', icon: 'money-bill-transfer', fn: tabCash }, { key: 'fund', label: 'Quỹ', icon: 'vault', fn: tabFund }];
+    { key: 'staff', label: 'Theo nhân viên', icon: 'user-tie', fn: tabStaff }, { key: 'cash', label: 'Dòng tiền', icon: 'money-bill-transfer', fn: tabCash }, { key: 'fund', label: 'Quỹ', icon: 'vault', fn: tabFund }];
 
   function draw() {
     U.destroyCharts();
@@ -147,6 +181,8 @@
 
   const mod = {
     title: 'Báo cáo', group: 'Tài chính', icon: 'chart-pie',
+    // Mở thẳng báo cáo doanh thu của một nhân viên (ownerId rỗng = chưa phân công)
+    openStaff(ownerId) { st.staff = ownerId || NONE; applyPreset('all'); App.Router.go('#/reports/staff'); },
     render(view, args) {
       host = view; if (args && TABS.find(t => t.key === args[0])) st.tab = args[0]; else st.tab = 'overview';
       if (!st.from && !st.to && st.preset !== 'all') applyPreset(st.preset);
@@ -156,11 +192,13 @@
         '<div id="rpTabs"></div><div class="tab-pane" id="rpBody"></div></div>';
       view.onclick = e => {
         const tb = e.target.closest('[data-tab]'); if (tb) { st.tab = tb.dataset.tab; history.replaceState(null, '', '#/reports/' + st.tab); draw(); return; }
-        const p = e.target.closest('[data-preset]'); if (p) { applyPreset(p.dataset.preset); draw(); }
+        const p = e.target.closest('[data-preset]'); if (p) { applyPreset(p.dataset.preset); draw(); return; }
+        const sf = e.target.closest('[data-staff]'); if (sf) { st.staff = st.staff === sf.dataset.staff ? '' : sf.dataset.staff; draw(); }
       };
       view.onchange = e => {
         if (e.target.id === 'rFrom' || e.target.id === 'rTo') { st.from = U.$('#rFrom', view).value; st.to = U.$('#rTo', view).value; if (st.from && st.to && st.from > st.to) { U.toast('Khoảng thời gian không hợp lệ', '“Từ ngày” phải trước “Đến ngày”.', 'warning'); return; } st.preset = ''; draw(); }
         else if (e.target.id === 'rView') { st.view = e.target.value; draw(); }
+        else if (e.target.id === 'rStaff') { st.staff = e.target.value; draw(); }
       };
       U.$('#rpExport', view).onclick = () => { if (exp) U.exportXlsx(exp); };
       draw();
