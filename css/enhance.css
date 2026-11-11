@@ -1,0 +1,70 @@
+/* ============================================================================
+ * ENHANCE.CSS — ô chọn có gõ tìm kiếm (searchable select) + chọn công đoạn gia công
+ * Nạp sau style.css. Dùng chung biến màu của design system (hỗ trợ dark mode).
+ * ==========================================================================*/
+
+/* ------------------------------------------------ Searchable select */
+.ssel-native { display: none !important; }
+.ssel { position: relative; display: inline-block; max-width: 100%; min-width: 0; vertical-align: middle; }
+.ssel-input { width: 100%; padding-right: 30px !important; text-overflow: ellipsis; cursor: text; }
+.ssel-caret {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  font-size: 10px; color: var(--text-3); cursor: pointer; padding: 6px 2px; margin-right: -2px;
+  transition: transform .15s;
+}
+.ssel.is-open .ssel-caret { transform: translateY(-50%) rotate(180deg); }
+.ssel.is-disabled .ssel-input { background: var(--surface-3); color: var(--text-3); cursor: not-allowed; }
+.ssel.is-invalid .ssel-input { border-color: var(--red); background: var(--red-soft); }
+.ssel-input::placeholder { color: var(--text-3); opacity: 1; }
+.ssel.is-open .ssel-input { border-color: var(--primary); background: var(--surface); box-shadow: var(--ring); }
+
+/* Vị trí/độ rộng theo ngữ cảnh */
+.field .ssel, .form-grid .ssel, .modal-body .field .ssel { display: block; width: 100%; }
+.toolbar .ssel { flex: 0 1 auto; min-width: 170px; }
+[style*="grid-template-columns"] > .ssel { display: block; width: 100%; }
+.card-head .right .ssel, .page-head-actions .ssel { min-width: 170px; }
+
+.ssel-list {
+  position: fixed; z-index: 200; overflow-y: auto; overscroll-behavior: contain;
+  background: var(--surface); border: 1px solid var(--border-2); border-radius: var(--r);
+  box-shadow: var(--shadow-lg); padding: 4px; font-size: 13px;
+  -webkit-overflow-scrolling: touch;
+}
+.ssel-opt { padding: 8px 10px; border-radius: 7px; cursor: pointer; line-height: 1.35; word-break: break-word; }
+.ssel-opt.is-active { background: var(--surface-3); }
+.ssel-opt.is-selected { color: var(--primary); font-weight: 600; background: var(--primary-soft); }
+.ssel-opt.is-empty { color: var(--text-3); font-style: italic; }
+.ssel-opt.is-disabled { opacity: .45; cursor: not-allowed; }
+.ssel-opt mark { background: transparent; color: var(--primary); font-weight: 700; padding: 0; }
+.ssel-more, .ssel-none { padding: 9px 10px; font-size: 12px; color: var(--text-3); text-align: center; }
+
+/* ------------------------------------------------ Chọn công đoạn gia công */
+.gc-stage-picker { border: 1px solid var(--border); border-radius: var(--r); background: var(--surface-2); padding: 10px; }
+.gc-stage-tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+.gc-stage-tools .inp { flex: 1 1 200px; min-width: 0; }
+.gc-stage-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 6px; max-height: 230px; overflow-y: auto; padding: 2px; }
+.gc-stage-item {
+  display: flex; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 9px;
+  background: var(--surface); cursor: pointer; font-size: 13px; line-height: 1.3; user-select: none;
+}
+.gc-stage-item:hover { border-color: var(--border-2); background: var(--surface-hover); }
+.gc-stage-item input { width: 17px; height: 17px; flex: 0 0 17px; margin: 0; accent-color: var(--primary); }
+.gc-stage-item.is-on { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); font-weight: 600; }
+.gc-stage-item[hidden] { display: none; }
+.gc-stage-add { display: flex; gap: 8px; margin-top: 8px; }
+.gc-stage-add .inp { flex: 1 1 auto; min-width: 0; }
+.gc-stage-count { margin-top: 6px; }
+.gc-stage-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+
+/* ------------------------------------------------ Điện thoại */
+@media (max-width: 900px) {
+  .toolbar .ssel { flex: 1 1 calc(50% - 8px); min-width: 0; }
+  .ssel-input { font-size: 16px; height: 42px; }   /* chống iOS tự zoom */
+  .ssel-opt { padding: 11px 12px; }                /* vùng chạm lớn hơn */
+}
+@media (max-width: 700px) {
+  .gc-stage-list { grid-template-columns: 1fr; max-height: 260px; }
+  .gc-stage-item { padding: 11px 12px; }
+  .gc-stage-add { flex-direction: column; }
+  .gc-stage-add .btn { justify-content: center; }
+}

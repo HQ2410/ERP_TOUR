@@ -988,3 +988,16 @@ input.inp:disabled, select.inp:disabled { background: var(--surface-3); color: v
   .lg-complete-qty::before { display: block; margin-right: 8px; font-size: 11px; color: var(--text-3); }
   .lg-complete-meta { grid-template-columns: 1fr; }
 }
+
+/* Searchable product picker for store replenishment. */
+.rr-product-picker{position:relative;min-width:0}
+.rr-product-search-wrap{position:relative}
+.rr-product-search{padding-right:36px!important;width:100%}
+.rr-product-toggle{position:absolute;right:4px;top:3px;bottom:3px;width:30px;border:0;background:transparent;color:var(--text-3);cursor:pointer}
+.rr-product-options{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:30;max-height:220px;overflow:auto;background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:0 8px 24px #0002;padding:4px}
+.rr-product-options[hidden]{display:none}
+.rr-product-options-above{top:auto;bottom:calc(100% + 4px)}
+.rr-product-option{display:flex;flex-direction:column;gap:3px;text-align:left;width:100%;padding:9px 10px;border:0;border-radius:5px;background:transparent;color:var(--text);cursor:pointer;font:inherit}
+.rr-product-option span{font-size:11px;color:var(--text-3)}
+.rr-product-option:hover,.rr-product-option-active{background:var(--surface-2)}
+.rr-product-empty{padding:12px;color:var(--text-3);font-size:12px}

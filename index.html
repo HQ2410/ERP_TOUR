@@ -2,65 +2,41 @@
 <html lang="vi" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ERP Du lịch — Quản lý khách hàng, đơn hàng, điều hành tour</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0f1b33">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Lê Nam ERP — Quản lý sản xuất và kinh doanh đậu hủ</title>
   <link rel="icon" href="data:,">
-  <meta name="description" content="Hệ thống quản lý khách hàng, đơn hàng, nhà cung cấp, điều hành tour, kế toán và báo cáo cho công ty du lịch.">
+  <meta name="description" content="Hệ thống quản lý sản xuất, kho, bán hàng và phân phối đậu hủ của Công ty TNHH SX TM DV Lê Nam.">
 
-  <!-- Font Inter (nếu offline sẽ tự dùng Segoe UI / system-ui) + FontAwesome cục bộ -->
+  <!-- Google Fonts & FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/fa/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- Design system lấy từ LENAM ERP + phần bổ sung riêng -->
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/tour.css">
-  <link rel="stylesheet" href="css/theme-tnk.css">
-  <link rel="stylesheet" href="css/login.css">
+  <!-- VYKO ERP Design System CSS -->
+  <link rel="stylesheet" href="css/style.css?v=20261019-replenish3">
+  <!-- Giao diện riêng cho điện thoại / máy tính bảng (<= 900px) — phải nằm SAU style.css -->
+  <link rel="stylesheet" href="css/enhance.css?v=20261106-e1">
+  <link rel="stylesheet" href="css/mobile.css?v=20261105-m1">
 </head>
-<body class="locked">
-  <!-- ==================== ĐĂNG NHẬP ==================== -->
-  <div class="login" id="login">
-    <section class="login-art">
-      <div class="login-brand"><i class="fa-solid fa-location-arrow"></i><span>TNK</span></div>
-      <h2>Quản lý tour trọn gói,<br>trong một nơi</h2>
-      <p>Từ đơn hàng, điều hành tour, booking nhà cung cấp đến kế toán và báo cáo.</p>
-      <ul>
-        <li><i class="fa-solid fa-route"></i>Điều hành tour: dự trù, booking, bàn giao, quyết toán</li>
-        <li><i class="fa-solid fa-file-invoice-dollar"></i>Đơn hàng, phiếu thu/chi, in và xuất PDF</li>
-        <li><i class="fa-solid fa-chart-pie"></i>Báo cáo doanh thu, lợi nhuận, dòng tiền, quỹ</li>
-      </ul>
-    </section>
-    <section class="login-panel">
-      <form class="login-card" id="loginForm" autocomplete="on" novalidate>
-        <div class="m-brand"><i class="fa-solid fa-location-arrow"></i>TNK</div>
-        <h1>Đăng nhập</h1>
-        <p>Chào mừng trở lại. Vui lòng đăng nhập để tiếp tục.</p>
-        <div class="lg-err" id="loginErr" role="alert"></div>
-        <div class="lg-field"><label for="lgUser">Tên đăng nhập</label>
-          <div class="lg-input"><i class="fa-regular fa-user lead"></i><input class="inp" id="lgUser" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="VD: admin"></div></div>
-        <div class="lg-field"><label for="lgPass">Mật khẩu</label>
-          <div class="lg-input"><i class="fa-solid fa-lock lead"></i><input class="inp" id="lgPass" name="password" type="password" autocomplete="current-password" placeholder="Nhập mật khẩu">
-            <button type="button" class="eye" id="lgEye" aria-label="Hiện/ẩn mật khẩu"><i class="fa-regular fa-eye"></i></button></div></div>
-        <div class="lg-conn" id="lgConn"><i class="fa-solid fa-spinner fa-spin"></i><span>Đang kết nối máy chủ KIO…</span><button type="button" id="lgRetry" style="display:none">Thử lại</button></div>
-        <div class="lg-row"><label><input type="checkbox" id="lgRemember"> Ghi nhớ đăng nhập</label></div>
-        <button class="btn btn-primary" id="lgBtn" type="submit"><i class="fa-solid fa-right-to-bracket"></i>Đăng nhập</button>
-        <div class="lg-hint" id="loginHint">Lần đầu sử dụng: tài khoản <b>admin</b> · mật khẩu <b>admin123</b>. Hệ thống sẽ nhắc bạn đổi mật khẩu sau khi đăng nhập.</div>
-        <div class="lg-foot">© TNK Travel &amp; Tour ERP</div>
-      </form>
-    </section>
+<body>
+  <!-- Chặn flash sidebar/header rỗng trong lúc JS + route đầu tiên đang khởi tạo. -->
+  <div id="startupMask" style="position:fixed;inset:0;z-index:99998;background:#f7f9fc;display:flex;align-items:center;justify-content:center;font-family:Inter,Arial,sans-serif">
+    <div style="text-align:center;color:#0f172a"><div style="width:48px;height:48px;margin:0 auto 12px;border-radius:14px;background:#2563eb;color:#fff;display:grid;place-items:center;font-size:22px">●</div><strong>Lê Nam ERP</strong></div>
   </div>
-
-  <div class="app">
+  <div class="app hidden">
 
     <!-- ==================== SIDEBAR ==================== -->
     <aside class="sidebar" id="sidebar">
       <div class="brand">
-        <div class="brand-logo"><i class="fa-solid fa-location-arrow"></i></div>
+        <div class="brand-logo"><i class="fa-solid fa-gear"></i></div>
         <div>
-          <div class="brand-name">TNK</div>
-          <div class="brand-sub">TRAVEL &amp; TOUR ERP</div>
+          <div class="brand-name">LÊ NAM ERP</div>
+          <div class="brand-sub">MANUFACTURING &amp; FOOD ERP</div>
         </div>
         <button class="sidebar-close" id="sidebarClose" aria-label="Đóng menu"><i class="fa-solid fa-xmark"></i></button>
       </div>
@@ -68,11 +44,11 @@
       <nav class="nav" id="nav"></nav>
 
       <div class="side-foot">
-        <button class="side-user" id="sideUser" data-pop>
-          <span class="avatar">AD</span>
+        <button class="side-user" id="sideUser">
+          <span class="avatar">HT</span>
           <span>
-            <span class="side-user-name">Admin</span><br>
-            <span class="side-user-role">Toàn quyền</span>
+            <span class="side-user-name">Hà Minh Tú</span>
+            <span class="side-user-role">Quản trị viên</span>
           </span>
           <i class="fa-solid fa-ellipsis-vertical"></i>
         </button>
@@ -81,69 +57,118 @@
 
     <div class="scrim" id="scrim"></div>
 
-    <!-- ==================== MAIN ==================== -->
+    <!-- ==================== MAIN AREA ==================== -->
     <div class="main">
+      <!-- TOPBAR -->
       <header class="topbar">
         <button class="icon-btn hamburger" id="hamburger" aria-label="Mở menu"><i class="fa-solid fa-bars"></i></button>
 
         <div style="min-width:0">
-          <div class="crumb-title" id="crumbTitle">Báo cáo</div>
+          <div class="crumb-title" id="crumbTitle">Tổng quan doanh nghiệp</div>
           <div class="crumb" id="crumb"></div>
         </div>
 
         <div class="gsearch" id="gsearchBox">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="globalSearch" placeholder="Tìm kiếm…" autocomplete="off">
+          <input type="text" id="globalSearch" placeholder="Tìm khách hàng, đơn hàng, báo giá, LSX…" autocomplete="off">
           <kbd>Ctrl K</kbd>
         </div>
 
-        <button class="sync-pill" id="syncPill" type="button" title="Trạng thái đồng bộ với máy chủ KIO"><i class="fa-solid fa-cloud"></i><span class="sp-text">…</span></button>
+        <button class="icon-btn" id="btnSearchMobile" style="display:none" aria-label="Tìm kiếm"><i class="fa-solid fa-magnifying-glass"></i></button>
         <button class="icon-btn" id="btnTheme" aria-label="Chế độ tối"><i class="fa-solid fa-moon"></i></button>
-        <button class="icon-btn" id="btnBell" data-pop aria-label="Thông báo"><i class="fa-regular fa-bell"></i><span class="dot-badge" id="bellCount">0</span></button>
+        <button class="icon-btn" id="btnBell" aria-label="Thông báo"><i class="fa-regular fa-bell"></i><span class="dot-badge" id="bellCount">0</span></button>
+        <button class="icon-btn" id="btnHelp" aria-label="Trợ giúp"><i class="fa-regular fa-circle-question"></i></button>
 
-        <button class="top-user" id="topUser" data-pop>
-          <span class="avatar sm"><i class="fa-solid fa-user"></i></span>
+        <button class="top-user" id="topUser">
+          <span class="avatar sm">HT</span>
           <span class="top-user-meta">
-            <span class="top-user-name">Admin</span><br>
-            <span class="top-user-role">Toàn quyền</span>
+            <span class="top-user-name">Hà Minh Tú</span><br>
+            <span class="top-user-role">Quản trị viên</span>
           </span>
           <i class="fa-solid fa-chevron-down"></i>
         </button>
       </header>
 
+      <!-- VIEW CONTAINER (Dynamic Module Rendered Here) -->
       <main class="view" id="view"></main>
     </div>
   </div>
 
-  <div class="boot-loading" id="bootLoading"><div class="bl-box"><i class="fa-solid fa-spinner fa-spin"></i><span id="blText">Đang tải dữ liệu…</span></div></div>
+  <!-- OVERLAY, MODAL, DRAWER, POPUP DROPDOWN, TOASTS -->
   <div class="overlay" id="overlay"></div>
+  <div class="modal-host" id="modalHost"></div>
+  <div class="drawer" id="drawer"></div>
   <div class="pop" id="pop"></div>
   <div class="toasts" id="toasts"></div>
 
-  <!-- Thư viện cục bộ -->
-  <script src="assets/chart.js"></script>
-  <script src="assets/xlsx.full.min.js"></script>
+  <!-- Chart.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- Thư viện KIO (list.js, krud.js) — nếu không tải được, ứng dụng tự chạy ở chế độ cục bộ -->
+  <!-- API server dùng chung do công ty cung cấp -->
   <script src="https://kio.dvqt.vn/list.js"></script>
   <script src="https://kio.dvqt.vn/krud.js"></script>
 
-  <!-- 1) dữ liệu + nghiệp vụ  2) lõi UI  3) các phân hệ  4) khởi động -->
-  <script src="js/data.js"></script>
-  <script src="js/core.js"></script>
-  <script src="js/api/kio-config.js"></script>
-  <script src="js/api/kio-api.js"></script>
-  <script src="js/api/tour-api.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/modules/customers.js"></script>
-  <script src="js/modules/orders.js"></script>
-  <script src="js/modules/suppliers.js"></script>
-  <script src="js/modules/accounting.js"></script>
-  <script src="js/modules/operations.js"></script>
-  <script src="js/modules/pricing.js"></script>
-  <script src="js/modules/reports.js"></script>
-  <script src="js/modules/dashboard.js"></script>
-  <script src="js/modules/system.js"></script>
-  <script src="js/app.js"></script>
+  <!-- ================================================================
+       APP LOAD ORDER
+       1) data: dữ liệu demo + config tĩnh
+       2) api: adapter KIO + persistence
+       3) core: helper/router/render chung
+       4) modules: giao diện + business logic từng phân hệ
+       5) app.js: actions + bootstrap cuối cùng
+       ================================================================ -->
+  <script src="js/data/data.js?v=20260930-badges-zero2"></script>
+
+  <script src="js/api/kio-config.js?v=20261031-ops6"></script>
+  <script src="js/api/kio-data-utils.js?v=20260916-fgmaster1"></script>
+  <script src="js/api/kio-api.js?v=20261001-data-safe1"></script>
+  <script src="js/api/purchase-api.js?v=20261019-fix1"></script>
+  <script src="js/api/inventory-api.js?v=20260930-live-stock2"></script>
+  <script src="js/api/crm-api.js?v=20261001-crm-save-firstpaint2"></script>
+  <script src="js/api/production-api.js?v=20260924-pqcrework1"></script>
+  <script src="js/api/system-api.js?v=20261019-fix1"></script>
+  <script src="js/api/restaurant-quality-api.js?v=20260918-bankmaster2"></script>
+  <script src="js/api/hr-api.js?v=20260924-reload-persist1"></script>
+  <script src="js/api/maps-api.js?v=20260916-osm2"></script>
+  <script src="js/api/vn-address-api.js?v=20261001-postmerge2level"></script>
+
+  <script src="js/core/app.core.js?v=20261031-d6"></script>
+  <script src="js/core/charts.js?v=20260916-fgmaster1"></script>
+  <!-- Ô chọn có gõ tìm kiếm (khách hàng, sản phẩm, NVL, nhân viên…) -->
+  <script src="js/core/searchable-select.js?v=20261106-e1"></script>
+
+  <script src="js/modules/legacy/quote-engine.js?v=20260916-fgmaster1"></script>
+  <script src="js/modules/mod-dashboard.js?v=20261019-fix1"></script>
+  <script src="js/modules/mod-customers.js?v=20261029-acc4"></script>
+  <script src="js/modules/legacy/mod-quotes.js?v=20260916-fgmaster1"></script>
+  <script src="js/modules/legacy/mod-quote-param.js?v=20260916-fgmaster1"></script>
+  <script src="js/modules/legacy/mod-pricebook.js?v=20260916-fgmaster1"></script>
+  <script src="js/modules/legacy/mod-catalogs.js?v=20260916-fgmaster1"></script>
+  <script src="js/modules/mod-orders.js?v=20261031-dt6"></script>
+  <script src="js/modules/mod-datetime-v6.js?v=20261031-dt6"></script>
+  <script src="js/modules/mod-production.js?v=20261031-d6"></script>
+  <script src="js/modules/mod-inventory.js?v=20261031-dt6"></script>
+  <script src="js/modules/mod-purchases.js?v=20261031-d6"></script>
+  <script src="js/modules/mod-enterprise.js?v=20261026-dot2a"></script>
+  <script src="js/modules/mod-hr.js?v=20261013-merged1"></script>
+  <script src="js/modules/mod-reports.js?v=20260916-fgmaster1"></script>
+  <script src="js/modules/mod-bi.js?v=20261013-merged1"></script>
+  <script src="js/modules/mod-crm-sales.js?v=20261031-dt6"></script>
+  <script src="js/modules/mod-rnd.js?v=20260915-rnd1"></script>
+  <script src="js/api/rnd-api.js?v=20260924-reload-persist1"></script>
+  <script src="js/api/approvals-api.js?v=20261019-fix1"></script>
+
+  <script src="js/app.js?v=20261031-dt6"></script>
+
+  <script src="js/modules/mod-approvals.js?v=20261019-fix1"></script>
+  <script src="js/modules/mod-approvals-flows.js?v=20261013-merged1"></script>
+  <script src="js/modules/mod-accounting.js?v=20261029-acc4"></script>
+  <script src="js/modules/mod-logistics.js?v=20261028-lg3"></script>
+  <script src="js/modules/mod-subcontract-in.js?v=20261106-gc2"></script>
+  <script src="js/modules/mod-accounting-v2.js?v=20261029-acc4"></script>
+  <script src="js/modules/hr-payroll-engine.js?v=20261030-hr5b"></script>
+  <script src="js/modules/mod-hr-payroll.js?v=20261030-hr5b"></script>
+  <script src="js/modules/mod-production-ops.js?v=20261031-ops6"></script>
+  <script src="js/modules/mod-purchase-compare.js?v=20261031-poc6"></script>
+  <script src="js/modules/mod-rnd-actions.js?v=20260915-rnd1"></script>
 </body>
 </html>

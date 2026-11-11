@@ -389,21 +389,13 @@ const KioStore = (() => {
     // chỉ vì state/cache frontend đang rỗng. Nếu thực sự cần xoá hết, caller phải
     // truyền { allowEmpty: true, reason: '...' } một cách tường minh.
     const EMPTY_PROTECTED_TABLES = new Set([
-      'tnk_customers',
-      'tnk_sales_orders',
-      'tnk_purchase_requests',
-      'tnk_inventory_balances',
-      'tnk_materials',
-      'tnk_finished_products',
-      'tnk_users',
-      // ERP Du lịch / Điều hành tour (tiền tố riêng tnk_tour_ để không trùng bảng TNK khác)
-      'tnk_tour_users',
-      'tnk_tour_customers',
-      'tnk_tour_suppliers',
-      'tnk_tour_orders',
-      'tnk_tour_tours',
-      'tnk_tour_vouchers',
-      'tnk_tour_quotes'
+      'lenam_customers',
+      'lenam_sales_orders',
+      'lenam_purchase_requests',
+      'lenam_inventory_balances',
+      'lenam_materials',
+      'lenam_finished_products',
+      'lenam_users'
     ]);
     if (incoming.length === 0 && EMPTY_PROTECTED_TABLES.has(String(table))) {
       const allowEmpty = options?.allowEmpty === true && String(options?.reason || '').trim().length >= 8;

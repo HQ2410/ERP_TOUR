@@ -1,0 +1,1931 @@
+{
+  "stores": [
+    {
+      "id": "STORE-TEST-001",
+      "code": "LVV",
+      "name": "Lê Nam - Lê Văn Việt",
+      "sourceWarehouseId": "WH-004",
+      "address": "128 Lê Văn Việt, TP. Thủ Đức, TP.HCM",
+      "status": "active"
+    },
+    {
+      "id": "STORE-TEST-002",
+      "code": "PXL",
+      "name": "Lê Nam - Phan Xích Long",
+      "sourceWarehouseId": "WH-004",
+      "address": "214 Phan Xích Long, Phú Nhuận, TP.HCM",
+      "status": "active"
+    },
+    {
+      "id": "STORE-TEST-003",
+      "code": "BD",
+      "name": "Lê Nam - Dĩ An",
+      "sourceWarehouseId": "WH-012",
+      "address": "18 Võ Thị Sáu, Dĩ An, Bình Dương",
+      "status": "active"
+    }
+  ],
+  "recipes": [
+    {
+      "id": "RCP-TEST-001",
+      "name": "Đậu hũ chiên sả ớt",
+      "group": "Món chính",
+      "price": 49000,
+      "unit": "Phần",
+      "active": true,
+      "items": [
+        {
+          "materialId": "SP-003",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "RCP-TEST-002",
+      "name": "Đậu hũ sốt cà chua",
+      "group": "Món chính",
+      "price": 45000,
+      "unit": "Phần",
+      "active": true,
+      "items": [
+        {
+          "materialId": "SP-002",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "RCP-TEST-003",
+      "name": "Đậu hũ non sốt nấm",
+      "group": "Món chính",
+      "price": 52000,
+      "unit": "Phần",
+      "active": true,
+      "items": [
+        {
+          "materialId": "SP-001",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "RCP-TEST-004",
+      "name": "Đậu hũ nhồi thịt sốt cà",
+      "group": "Món chính",
+      "price": 59000,
+      "unit": "Phần",
+      "active": true,
+      "items": [
+        {
+          "materialId": "SP-008",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "RCP-TEST-005",
+      "name": "Đậu hũ trứng chiên giòn",
+      "group": "Món chính",
+      "price": 55000,
+      "unit": "Phần",
+      "active": true,
+      "items": [
+        {
+          "materialId": "SP-009",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "RCP-TEST-006",
+      "name": "Bún đậu Lê Nam",
+      "group": "Combo",
+      "price": 79000,
+      "unit": "Phần",
+      "active": true,
+      "items": [
+        {
+          "materialId": "SP-002",
+          "quantity": 1
+        },
+        {
+          "materialId": "SP-003",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "RCP-TEST-007",
+      "name": "Combo gia đình 4 người",
+      "group": "Combo",
+      "price": 249000,
+      "unit": "Combo",
+      "active": true,
+      "items": [
+        {
+          "materialId": "SP-002",
+          "quantity": 2
+        },
+        {
+          "materialId": "SP-003",
+          "quantity": 2
+        },
+        {
+          "materialId": "SP-006",
+          "quantity": 2
+        }
+      ]
+    },
+    {
+      "id": "RCP-TEST-008",
+      "name": "Sữa đậu nành không đường",
+      "group": "Đồ uống",
+      "price": 18000,
+      "unit": "Chai",
+      "active": true,
+      "items": [
+        {
+          "materialId": "SP-006",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "RCP-TEST-009",
+      "name": "Sữa đậu nành có đường",
+      "group": "Đồ uống",
+      "price": 20000,
+      "unit": "Chai",
+      "active": true,
+      "items": [
+        {
+          "materialId": "SP-007",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "RCP-TEST-010",
+      "name": "Tàu hũ nước đường gừng",
+      "group": "Tráng miệng",
+      "price": 25000,
+      "unit": "Ly",
+      "active": true,
+      "items": [
+        {
+          "materialId": "SP-004",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "RCP-TEST-011",
+      "name": "Đậu hũ ky xào sả",
+      "group": "Món chính",
+      "price": 65000,
+      "unit": "Phần",
+      "active": true,
+      "items": [
+        {
+          "materialId": "SP-005",
+          "quantity": 1
+        }
+      ]
+    }
+  ],
+  "orders": [
+    {
+      "id": "POS-TEST-2026-0001",
+      "storeId": "STORE-TEST-001",
+      "shift": "Ca sáng",
+      "employeeId": "NV-004",
+      "date": "2026-09-16",
+      "channel": "POS",
+      "tableNo": "",
+      "payment": "Tiền mặt",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-005",
+          "quantity": 1,
+          "price": 55000
+        }
+      ],
+      "status": "PAID",
+      "createdAt": "2026-09-16T08:45:00+07:00",
+      "paidAt": "2026-09-16T09:03:00+07:00",
+      "updatedAt": "2026-09-16T09:03:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0002",
+      "storeId": "STORE-TEST-002",
+      "shift": "Ca sáng",
+      "employeeId": "NV-018",
+      "date": "2026-09-16",
+      "channel": "TABLET",
+      "tableNo": "Bàn 12",
+      "payment": "Tiền mặt",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-006",
+          "quantity": 2,
+          "price": 79000
+        },
+        {
+          "recipeId": "RCP-TEST-011",
+          "quantity": 1,
+          "price": 65000
+        }
+      ],
+      "status": "PAID",
+      "createdAt": "2026-09-16T10:45:00+07:00",
+      "paidAt": "2026-09-16T11:08:00+07:00",
+      "updatedAt": "2026-09-16T11:08:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0003",
+      "storeId": "STORE-TEST-003",
+      "shift": "Ca trưa",
+      "employeeId": "NV-019",
+      "date": "2026-09-16",
+      "channel": "QR",
+      "tableNo": "Bàn 11",
+      "payment": "Chuyển khoản",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-006",
+          "quantity": 1,
+          "price": 79000
+        },
+        {
+          "recipeId": "RCP-TEST-002",
+          "quantity": 1,
+          "price": 45000
+        },
+        {
+          "recipeId": "RCP-TEST-010",
+          "quantity": 1,
+          "price": 25000
+        }
+      ],
+      "status": "PAID",
+      "createdAt": "2026-09-16T12:45:00+07:00",
+      "paidAt": "2026-09-16T12:59:00+07:00",
+      "updatedAt": "2026-09-16T12:59:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0004",
+      "storeId": "STORE-TEST-001",
+      "shift": "Ca trưa",
+      "employeeId": "NV-021",
+      "date": "2026-09-16",
+      "channel": "POS",
+      "tableNo": "",
+      "payment": "Ví điện tử / QR",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-004",
+          "quantity": 2,
+          "price": 59000
+        },
+        {
+          "recipeId": "RCP-TEST-010",
+          "quantity": 1,
+          "price": 25000
+        }
+      ],
+      "status": "PAID",
+      "createdAt": "2026-09-16T14:45:00+07:00",
+      "paidAt": "2026-09-16T14:57:00+07:00",
+      "updatedAt": "2026-09-16T14:57:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0005",
+      "storeId": "STORE-TEST-002",
+      "shift": "Ca tối",
+      "employeeId": "NV-004",
+      "date": "2026-09-16",
+      "channel": "TABLET",
+      "tableNo": "Bàn 03",
+      "payment": "Chuyển khoản",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-011",
+          "quantity": 1,
+          "price": 65000
+        },
+        {
+          "recipeId": "RCP-TEST-009",
+          "quantity": 2,
+          "price": 20000
+        }
+      ],
+      "status": "PAID",
+      "createdAt": "2026-09-16T16:15:00+07:00",
+      "paidAt": "2026-09-16T16:24:00+07:00",
+      "updatedAt": "2026-09-16T16:24:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0006",
+      "storeId": "STORE-TEST-003",
+      "shift": "Ca tối",
+      "employeeId": "NV-018",
+      "date": "2026-09-16",
+      "channel": "QR",
+      "tableNo": "Bàn 14",
+      "payment": "Ví điện tử / QR",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-004",
+          "quantity": 1,
+          "price": 59000
+        },
+        {
+          "recipeId": "RCP-TEST-010",
+          "quantity": 1,
+          "price": 25000
+        },
+        {
+          "recipeId": "RCP-TEST-003",
+          "quantity": 1,
+          "price": 52000
+        }
+      ],
+      "status": "PAID",
+      "createdAt": "2026-09-16T18:05:00+07:00",
+      "paidAt": "2026-09-16T18:18:00+07:00",
+      "updatedAt": "2026-09-16T18:18:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0007",
+      "storeId": "STORE-TEST-002",
+      "shift": "Ca trưa",
+      "employeeId": "NV-018",
+      "date": "2026-09-17",
+      "channel": "TABLET",
+      "tableNo": "Bàn 08",
+      "payment": "Chuyển khoản",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-009",
+          "quantity": 2,
+          "price": 20000
+        }
+      ],
+      "status": "PAID",
+      "createdAt": "2026-09-17T08:25:00+07:00",
+      "paidAt": "2026-09-17T08:31:00+07:00",
+      "updatedAt": "2026-09-17T08:31:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0008",
+      "storeId": "STORE-TEST-003",
+      "shift": "Ca trưa",
+      "employeeId": "NV-019",
+      "date": "2026-09-17",
+      "channel": "QR",
+      "tableNo": "Bàn 01",
+      "payment": "Chuyển khoản",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-009",
+          "quantity": 2,
+          "price": 20000
+        },
+        {
+          "recipeId": "RCP-TEST-010",
+          "quantity": 1,
+          "price": 25000
+        }
+      ],
+      "status": "PAID",
+      "createdAt": "2026-09-17T10:05:00+07:00",
+      "paidAt": "2026-09-17T10:10:00+07:00",
+      "updatedAt": "2026-09-17T10:10:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0009",
+      "storeId": "STORE-TEST-001",
+      "shift": "Ca tối",
+      "employeeId": "NV-021",
+      "date": "2026-09-17",
+      "channel": "POS",
+      "tableNo": "",
+      "payment": "Ví điện tử / QR",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-003",
+          "quantity": 1,
+          "price": 52000
+        },
+        {
+          "recipeId": "RCP-TEST-009",
+          "quantity": 1,
+          "price": 20000
+        },
+        {
+          "recipeId": "RCP-TEST-001",
+          "quantity": 1,
+          "price": 49000
+        }
+      ],
+      "status": "PAID",
+      "createdAt": "2026-09-17T12:25:00+07:00",
+      "paidAt": "2026-09-17T12:44:00+07:00",
+      "updatedAt": "2026-09-17T12:44:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0010",
+      "storeId": "STORE-TEST-002",
+      "shift": "Ca tối",
+      "employeeId": "NV-004",
+      "date": "2026-09-17",
+      "channel": "TABLET",
+      "tableNo": "Bàn 11",
+      "payment": "Thẻ",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-004",
+          "quantity": 2,
+          "price": 59000
+        },
+        {
+          "recipeId": "RCP-TEST-002",
+          "quantity": 1,
+          "price": 45000
+        }
+      ],
+      "status": "PAID",
+      "createdAt": "2026-09-17T14:05:00+07:00",
+      "paidAt": "2026-09-17T14:17:00+07:00",
+      "updatedAt": "2026-09-17T14:17:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0011",
+      "storeId": "STORE-TEST-003",
+      "shift": "Ca sáng",
+      "employeeId": "NV-018",
+      "date": "2026-09-17",
+      "channel": "QR",
+      "tableNo": "Bàn 02",
+      "payment": "Chuyển khoản",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-007",
+          "quantity": 1,
+          "price": 249000
+        },
+        {
+          "recipeId": "RCP-TEST-008",
+          "quantity": 2,
+          "price": 18000
+        }
+      ],
+      "status": "PAID",
+      "createdAt": "2026-09-17T16:25:00+07:00",
+      "paidAt": "2026-09-17T16:36:00+07:00",
+      "updatedAt": "2026-09-17T16:36:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0012",
+      "storeId": "STORE-TEST-001",
+      "shift": "Ca sáng",
+      "employeeId": "NV-019",
+      "date": "2026-09-17",
+      "channel": "POS",
+      "tableNo": "",
+      "payment": "Ví điện tử / QR",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-001",
+          "quantity": 2,
+          "price": 49000
+        },
+        {
+          "recipeId": "RCP-TEST-007",
+          "quantity": 2,
+          "price": 249000
+        },
+        {
+          "recipeId": "RCP-TEST-006",
+          "quantity": 2,
+          "price": 79000
+        }
+      ],
+      "status": "PAID",
+      "createdAt": "2026-09-17T18:25:00+07:00",
+      "paidAt": "2026-09-17T18:46:00+07:00",
+      "updatedAt": "2026-09-17T18:46:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0013",
+      "storeId": "STORE-TEST-003",
+      "shift": "Ca tối",
+      "employeeId": "NV-019",
+      "date": "2026-09-18",
+      "channel": "QR",
+      "tableNo": "Bàn 16",
+      "payment": "Tiền mặt",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-009",
+          "quantity": 2,
+          "price": 20000
+        }
+      ],
+      "status": "PAID",
+      "createdAt": "2026-09-18T08:05:00+07:00",
+      "paidAt": "2026-09-18T08:10:00+07:00",
+      "updatedAt": "2026-09-18T08:10:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0014",
+      "storeId": "STORE-TEST-001",
+      "shift": "Ca tối",
+      "employeeId": "NV-021",
+      "date": "2026-09-18",
+      "channel": "POS",
+      "tableNo": "",
+      "payment": "Ví điện tử / QR",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-006",
+          "quantity": 1,
+          "price": 79000
+        },
+        {
+          "recipeId": "RCP-TEST-008",
+          "quantity": 2,
+          "price": 18000
+        }
+      ],
+      "status": "PAID",
+      "createdAt": "2026-09-18T10:15:00+07:00",
+      "paidAt": "2026-09-18T10:34:00+07:00",
+      "updatedAt": "2026-09-18T10:34:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0015",
+      "storeId": "STORE-TEST-002",
+      "shift": "Ca sáng",
+      "employeeId": "NV-004",
+      "date": "2026-09-18",
+      "channel": "TABLET",
+      "tableNo": "Bàn 10",
+      "payment": "Ví điện tử / QR",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-007",
+          "quantity": 2,
+          "price": 249000
+        },
+        {
+          "recipeId": "RCP-TEST-004",
+          "quantity": 1,
+          "price": 59000
+        },
+        {
+          "recipeId": "RCP-TEST-011",
+          "quantity": 2,
+          "price": 65000
+        }
+      ],
+      "status": "PAID",
+      "createdAt": "2026-09-18T12:15:00+07:00",
+      "paidAt": "2026-09-18T12:26:00+07:00",
+      "updatedAt": "2026-09-18T12:26:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0016",
+      "storeId": "STORE-TEST-003",
+      "shift": "Ca sáng",
+      "employeeId": "NV-018",
+      "date": "2026-09-18",
+      "channel": "QR",
+      "tableNo": "Bàn 06",
+      "payment": "Ví điện tử / QR",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-008",
+          "quantity": 2,
+          "price": 18000
+        },
+        {
+          "recipeId": "RCP-TEST-006",
+          "quantity": 2,
+          "price": 79000
+        }
+      ],
+      "status": "PAID",
+      "createdAt": "2026-09-18T14:25:00+07:00",
+      "paidAt": "2026-09-18T14:41:00+07:00",
+      "updatedAt": "2026-09-18T14:41:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0017",
+      "storeId": "STORE-TEST-001",
+      "shift": "Ca trưa",
+      "employeeId": "NV-019",
+      "date": "2026-09-18",
+      "channel": "POS",
+      "tableNo": "",
+      "payment": "Thẻ",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-006",
+          "quantity": 1,
+          "price": 79000
+        },
+        {
+          "recipeId": "RCP-TEST-004",
+          "quantity": 1,
+          "price": 59000
+        }
+      ],
+      "status": "PAID",
+      "createdAt": "2026-09-18T16:25:00+07:00",
+      "paidAt": "2026-09-18T16:41:00+07:00",
+      "updatedAt": "2026-09-18T16:41:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0018",
+      "storeId": "STORE-TEST-002",
+      "shift": "Ca trưa",
+      "employeeId": "NV-021",
+      "date": "2026-09-18",
+      "channel": "TABLET",
+      "tableNo": "Bàn 03",
+      "payment": "Thẻ",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-004",
+          "quantity": 1,
+          "price": 59000
+        },
+        {
+          "recipeId": "RCP-TEST-002",
+          "quantity": 2,
+          "price": 45000
+        },
+        {
+          "recipeId": "RCP-TEST-010",
+          "quantity": 1,
+          "price": 25000
+        }
+      ],
+      "status": "PAID",
+      "createdAt": "2026-09-18T18:45:00+07:00",
+      "paidAt": "2026-09-18T18:52:00+07:00",
+      "updatedAt": "2026-09-18T18:52:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0019",
+      "storeId": "STORE-TEST-001",
+      "shift": "Ca sáng",
+      "employeeId": "NV-004",
+      "date": "2026-09-18",
+      "channel": "TABLET",
+      "tableNo": "Bàn 05",
+      "payment": "",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-006",
+          "quantity": 1,
+          "price": 79000
+        },
+        {
+          "recipeId": "RCP-TEST-008",
+          "quantity": 2,
+          "price": 18000
+        }
+      ],
+      "status": "OPEN",
+      "createdAt": "2026-09-18T08:21:00+07:00",
+      "updatedAt": "2026-09-18T08:21:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0020",
+      "storeId": "STORE-TEST-001",
+      "shift": "Ca sáng",
+      "employeeId": "NV-018",
+      "date": "2026-09-18",
+      "channel": "QR",
+      "tableNo": "Bàn 08",
+      "payment": "",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-001",
+          "quantity": 2,
+          "price": 49000
+        },
+        {
+          "recipeId": "RCP-TEST-010",
+          "quantity": 2,
+          "price": 25000
+        }
+      ],
+      "status": "OPEN",
+      "createdAt": "2026-09-18T08:24:00+07:00",
+      "updatedAt": "2026-09-18T08:24:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0021",
+      "storeId": "STORE-TEST-002",
+      "shift": "Ca sáng",
+      "employeeId": "NV-019",
+      "date": "2026-09-18",
+      "channel": "QR",
+      "tableNo": "Bàn 03",
+      "payment": "",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-003",
+          "quantity": 1,
+          "price": 52000
+        },
+        {
+          "recipeId": "RCP-TEST-009",
+          "quantity": 1,
+          "price": 20000
+        }
+      ],
+      "status": "OPEN",
+      "createdAt": "2026-09-18T08:26:00+07:00",
+      "updatedAt": "2026-09-18T08:26:00+07:00"
+    },
+    {
+      "id": "POS-TEST-2026-0022",
+      "storeId": "STORE-TEST-003",
+      "shift": "Ca sáng",
+      "employeeId": "NV-021",
+      "date": "2026-09-18",
+      "channel": "TABLET",
+      "tableNo": "Bàn 12",
+      "payment": "",
+      "items": [
+        {
+          "recipeId": "RCP-TEST-007",
+          "quantity": 1,
+          "price": 249000
+        }
+      ],
+      "status": "OPEN",
+      "createdAt": "2026-09-18T08:28:00+07:00",
+      "updatedAt": "2026-09-18T08:28:00+07:00"
+    }
+  ],
+  "storeStocks": [
+    {
+      "id": "RSS-TEST-001-001",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-001",
+      "lotId": "LOT-TEST-001-001",
+      "unit": "Hộp",
+      "qtyOnHand": 54,
+      "qtyAvailable": 54,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-001-002",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-002",
+      "lotId": "LOT-TEST-002-001",
+      "unit": "Khối",
+      "qtyOnHand": 52,
+      "qtyAvailable": 52,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-001-003",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-003",
+      "lotId": "LOT-TEST-003-001",
+      "unit": "Gói",
+      "qtyOnHand": 59,
+      "qtyAvailable": 59,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-001-004",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-004",
+      "lotId": "LOT-TEST-004-001",
+      "unit": "Ly",
+      "qtyOnHand": 44,
+      "qtyAvailable": 44,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-001-005",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-005",
+      "lotId": "LOT-TEST-005-001",
+      "unit": "Gói",
+      "qtyOnHand": 20,
+      "qtyAvailable": 20,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-001-006",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-006",
+      "lotId": "LOT-TEST-006-001",
+      "unit": "Chai",
+      "qtyOnHand": 74,
+      "qtyAvailable": 74,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-001-007",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-007",
+      "lotId": "LOT-TEST-007-001",
+      "unit": "Chai",
+      "qtyOnHand": 49,
+      "qtyAvailable": 49,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-001-008",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-008",
+      "lotId": "LOT-TEST-008-001",
+      "unit": "Hộp",
+      "qtyOnHand": 37,
+      "qtyAvailable": 37,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-001-009",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-009",
+      "lotId": "LOT-TEST-009-001",
+      "unit": "Ống",
+      "qtyOnHand": 34,
+      "qtyAvailable": 34,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-001-010",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-010",
+      "lotId": "LOT-TEST-010-001",
+      "unit": "Gói",
+      "qtyOnHand": 25,
+      "qtyAvailable": 25,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-002-001",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-001",
+      "lotId": "LOT-TEST-001-002",
+      "unit": "Hộp",
+      "qtyOnHand": 45,
+      "qtyAvailable": 45,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-002-002",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-002",
+      "lotId": "LOT-TEST-002-002",
+      "unit": "Khối",
+      "qtyOnHand": 39,
+      "qtyAvailable": 39,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-002-003",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-003",
+      "lotId": "LOT-TEST-003-002",
+      "unit": "Gói",
+      "qtyOnHand": 49,
+      "qtyAvailable": 49,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-002-004",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-004",
+      "lotId": "LOT-TEST-004-002",
+      "unit": "Ly",
+      "qtyOnHand": 37,
+      "qtyAvailable": 37,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-002-005",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-005",
+      "lotId": "LOT-TEST-005-002",
+      "unit": "Gói",
+      "qtyOnHand": 12,
+      "qtyAvailable": 12,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-002-006",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-006",
+      "lotId": "LOT-TEST-006-002",
+      "unit": "Chai",
+      "qtyOnHand": 61,
+      "qtyAvailable": 61,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-002-007",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-007",
+      "lotId": "LOT-TEST-007-002",
+      "unit": "Chai",
+      "qtyOnHand": 38,
+      "qtyAvailable": 38,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-002-008",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-008",
+      "lotId": "LOT-TEST-008-002",
+      "unit": "Hộp",
+      "qtyOnHand": 6,
+      "qtyAvailable": 6,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-002-009",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-009",
+      "lotId": "LOT-TEST-009-002",
+      "unit": "Ống",
+      "qtyOnHand": 28,
+      "qtyAvailable": 28,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-002-010",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-010",
+      "lotId": "LOT-TEST-010-002",
+      "unit": "Gói",
+      "qtyOnHand": 20,
+      "qtyAvailable": 20,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-003-001",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-001",
+      "lotId": "LOT-TEST-001-003",
+      "unit": "Hộp",
+      "qtyOnHand": 37,
+      "qtyAvailable": 37,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-003-002",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-002",
+      "lotId": "LOT-TEST-002-003",
+      "unit": "Khối",
+      "qtyOnHand": 36,
+      "qtyAvailable": 36,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-003-003",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-003",
+      "lotId": "LOT-TEST-003-003",
+      "unit": "Gói",
+      "qtyOnHand": 45,
+      "qtyAvailable": 45,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-003-004",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-004",
+      "lotId": "LOT-TEST-004-003",
+      "unit": "Ly",
+      "qtyOnHand": 29,
+      "qtyAvailable": 29,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-003-005",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-005",
+      "lotId": "LOT-TEST-005-003",
+      "unit": "Gói",
+      "qtyOnHand": 3,
+      "qtyAvailable": 3,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-003-006",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-006",
+      "lotId": "LOT-TEST-006-003",
+      "unit": "Chai",
+      "qtyOnHand": 48,
+      "qtyAvailable": 48,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-003-007",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-007",
+      "lotId": "LOT-TEST-007-003",
+      "unit": "Chai",
+      "qtyOnHand": 32,
+      "qtyAvailable": 32,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-003-008",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-008",
+      "lotId": "LOT-TEST-008-003",
+      "unit": "Hộp",
+      "qtyOnHand": 25,
+      "qtyAvailable": 25,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-003-009",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-009",
+      "lotId": "LOT-TEST-009-003",
+      "unit": "Ống",
+      "qtyOnHand": 22,
+      "qtyAvailable": 22,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    },
+    {
+      "id": "RSS-TEST-003-010",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-010",
+      "lotId": "LOT-TEST-010-003",
+      "unit": "Gói",
+      "qtyOnHand": 18,
+      "qtyAvailable": 18,
+      "expiryDate": "2026-09-25",
+      "createdAt": "2026-09-16T06:00:00+07:00",
+      "updatedAt": "2026-09-18T08:30:00+07:00"
+    }
+  ],
+  "storeStockTransactions": [
+    {
+      "id": "RSTX-TEST-00001",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-009",
+      "lotId": "LOT-TEST-009-001",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 35,
+      "qtyAfter": 34,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0001",
+      "date": "2026-09-16",
+      "createdAt": "2026-09-16T09:03:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00002",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-002",
+      "lotId": "LOT-TEST-002-002",
+      "type": "POS_ISSUE",
+      "qty": -2,
+      "qtyBefore": 48,
+      "qtyAfter": 46,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0002",
+      "date": "2026-09-16",
+      "createdAt": "2026-09-16T11:08:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00003",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-003",
+      "lotId": "LOT-TEST-003-002",
+      "type": "POS_ISSUE",
+      "qty": -2,
+      "qtyBefore": 55,
+      "qtyAfter": 53,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0002",
+      "date": "2026-09-16",
+      "createdAt": "2026-09-16T11:08:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00004",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-005",
+      "lotId": "LOT-TEST-005-002",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 16,
+      "qtyAfter": 15,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0002",
+      "date": "2026-09-16",
+      "createdAt": "2026-09-16T11:08:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00005",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-002",
+      "lotId": "LOT-TEST-002-003",
+      "type": "POS_ISSUE",
+      "qty": -2,
+      "qtyBefore": 42,
+      "qtyAfter": 40,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0003",
+      "date": "2026-09-16",
+      "createdAt": "2026-09-16T12:59:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00006",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-003",
+      "lotId": "LOT-TEST-003-003",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 50,
+      "qtyAfter": 49,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0003",
+      "date": "2026-09-16",
+      "createdAt": "2026-09-16T12:59:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00007",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-004",
+      "lotId": "LOT-TEST-004-003",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 32,
+      "qtyAfter": 31,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0003",
+      "date": "2026-09-16",
+      "createdAt": "2026-09-16T12:59:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00008",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-008",
+      "lotId": "LOT-TEST-008-001",
+      "type": "POS_ISSUE",
+      "qty": -2,
+      "qtyBefore": 40,
+      "qtyAfter": 38,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0004",
+      "date": "2026-09-16",
+      "createdAt": "2026-09-16T14:57:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00009",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-004",
+      "lotId": "LOT-TEST-004-001",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 45,
+      "qtyAfter": 44,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0004",
+      "date": "2026-09-16",
+      "createdAt": "2026-09-16T14:57:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00010",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-005",
+      "lotId": "LOT-TEST-005-002",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 15,
+      "qtyAfter": 14,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0005",
+      "date": "2026-09-16",
+      "createdAt": "2026-09-16T16:24:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00011",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-007",
+      "lotId": "LOT-TEST-007-002",
+      "type": "POS_ISSUE",
+      "qty": -2,
+      "qtyBefore": 42,
+      "qtyAfter": 40,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0005",
+      "date": "2026-09-16",
+      "createdAt": "2026-09-16T16:24:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00012",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-008",
+      "lotId": "LOT-TEST-008-003",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 26,
+      "qtyAfter": 25,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0006",
+      "date": "2026-09-16",
+      "createdAt": "2026-09-16T18:18:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00013",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-004",
+      "lotId": "LOT-TEST-004-003",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 31,
+      "qtyAfter": 30,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0006",
+      "date": "2026-09-16",
+      "createdAt": "2026-09-16T18:18:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00014",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-001",
+      "lotId": "LOT-TEST-001-003",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 38,
+      "qtyAfter": 37,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0006",
+      "date": "2026-09-16",
+      "createdAt": "2026-09-16T18:18:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00015",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-007",
+      "lotId": "LOT-TEST-007-002",
+      "type": "POS_ISSUE",
+      "qty": -2,
+      "qtyBefore": 40,
+      "qtyAfter": 38,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0007",
+      "date": "2026-09-17",
+      "createdAt": "2026-09-17T08:31:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00016",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-007",
+      "lotId": "LOT-TEST-007-003",
+      "type": "POS_ISSUE",
+      "qty": -2,
+      "qtyBefore": 36,
+      "qtyAfter": 34,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0008",
+      "date": "2026-09-17",
+      "createdAt": "2026-09-17T10:10:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00017",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-004",
+      "lotId": "LOT-TEST-004-003",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 30,
+      "qtyAfter": 29,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0008",
+      "date": "2026-09-17",
+      "createdAt": "2026-09-17T10:10:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00018",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-001",
+      "lotId": "LOT-TEST-001-001",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 55,
+      "qtyAfter": 54,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0009",
+      "date": "2026-09-17",
+      "createdAt": "2026-09-17T12:44:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00019",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-007",
+      "lotId": "LOT-TEST-007-001",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 50,
+      "qtyAfter": 49,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0009",
+      "date": "2026-09-17",
+      "createdAt": "2026-09-17T12:44:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00020",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-003",
+      "lotId": "LOT-TEST-003-001",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 70,
+      "qtyAfter": 69,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0009",
+      "date": "2026-09-17",
+      "createdAt": "2026-09-17T12:44:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00021",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-008",
+      "lotId": "LOT-TEST-008-002",
+      "type": "POS_ISSUE",
+      "qty": -2,
+      "qtyBefore": 30,
+      "qtyAfter": 28,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0010",
+      "date": "2026-09-17",
+      "createdAt": "2026-09-17T14:17:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00022",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-002",
+      "lotId": "LOT-TEST-002-002",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 46,
+      "qtyAfter": 45,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0010",
+      "date": "2026-09-17",
+      "createdAt": "2026-09-17T14:17:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00023",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-002",
+      "lotId": "LOT-TEST-002-003",
+      "type": "POS_ISSUE",
+      "qty": -2,
+      "qtyBefore": 40,
+      "qtyAfter": 38,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0011",
+      "date": "2026-09-17",
+      "createdAt": "2026-09-17T16:36:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00024",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-003",
+      "lotId": "LOT-TEST-003-003",
+      "type": "POS_ISSUE",
+      "qty": -2,
+      "qtyBefore": 49,
+      "qtyAfter": 47,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0011",
+      "date": "2026-09-17",
+      "createdAt": "2026-09-17T16:36:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00025",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-006",
+      "lotId": "LOT-TEST-006-003",
+      "type": "POS_ISSUE",
+      "qty": -4,
+      "qtyBefore": 54,
+      "qtyAfter": 50,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0011",
+      "date": "2026-09-17",
+      "createdAt": "2026-09-17T16:36:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00026",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-003",
+      "lotId": "LOT-TEST-003-001",
+      "type": "POS_ISSUE",
+      "qty": -8,
+      "qtyBefore": 69,
+      "qtyAfter": 61,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0012",
+      "date": "2026-09-17",
+      "createdAt": "2026-09-17T18:46:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00027",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-002",
+      "lotId": "LOT-TEST-002-001",
+      "type": "POS_ISSUE",
+      "qty": -6,
+      "qtyBefore": 60,
+      "qtyAfter": 54,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0012",
+      "date": "2026-09-17",
+      "createdAt": "2026-09-17T18:46:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00028",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-006",
+      "lotId": "LOT-TEST-006-001",
+      "type": "POS_ISSUE",
+      "qty": -4,
+      "qtyBefore": 80,
+      "qtyAfter": 76,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0012",
+      "date": "2026-09-17",
+      "createdAt": "2026-09-17T18:46:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00029",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-007",
+      "lotId": "LOT-TEST-007-003",
+      "type": "POS_ISSUE",
+      "qty": -2,
+      "qtyBefore": 34,
+      "qtyAfter": 32,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0013",
+      "date": "2026-09-18",
+      "createdAt": "2026-09-18T08:10:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00030",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-002",
+      "lotId": "LOT-TEST-002-001",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 54,
+      "qtyAfter": 53,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0014",
+      "date": "2026-09-18",
+      "createdAt": "2026-09-18T10:34:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00031",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-003",
+      "lotId": "LOT-TEST-003-001",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 61,
+      "qtyAfter": 60,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0014",
+      "date": "2026-09-18",
+      "createdAt": "2026-09-18T10:34:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00032",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-006",
+      "lotId": "LOT-TEST-006-001",
+      "type": "POS_ISSUE",
+      "qty": -2,
+      "qtyBefore": 76,
+      "qtyAfter": 74,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0014",
+      "date": "2026-09-18",
+      "createdAt": "2026-09-18T10:34:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00033",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-002",
+      "lotId": "LOT-TEST-002-002",
+      "type": "POS_ISSUE",
+      "qty": -4,
+      "qtyBefore": 45,
+      "qtyAfter": 41,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0015",
+      "date": "2026-09-18",
+      "createdAt": "2026-09-18T12:26:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00034",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-003",
+      "lotId": "LOT-TEST-003-002",
+      "type": "POS_ISSUE",
+      "qty": -4,
+      "qtyBefore": 53,
+      "qtyAfter": 49,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0015",
+      "date": "2026-09-18",
+      "createdAt": "2026-09-18T12:26:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00035",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-006",
+      "lotId": "LOT-TEST-006-002",
+      "type": "POS_ISSUE",
+      "qty": -4,
+      "qtyBefore": 65,
+      "qtyAfter": 61,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0015",
+      "date": "2026-09-18",
+      "createdAt": "2026-09-18T12:26:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00036",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-008",
+      "lotId": "LOT-TEST-008-002",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 28,
+      "qtyAfter": 27,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0015",
+      "date": "2026-09-18",
+      "createdAt": "2026-09-18T12:26:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00037",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-005",
+      "lotId": "LOT-TEST-005-002",
+      "type": "POS_ISSUE",
+      "qty": -2,
+      "qtyBefore": 14,
+      "qtyAfter": 12,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0015",
+      "date": "2026-09-18",
+      "createdAt": "2026-09-18T12:26:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00038",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-006",
+      "lotId": "LOT-TEST-006-003",
+      "type": "POS_ISSUE",
+      "qty": -2,
+      "qtyBefore": 50,
+      "qtyAfter": 48,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0016",
+      "date": "2026-09-18",
+      "createdAt": "2026-09-18T14:41:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00039",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-002",
+      "lotId": "LOT-TEST-002-003",
+      "type": "POS_ISSUE",
+      "qty": -2,
+      "qtyBefore": 38,
+      "qtyAfter": 36,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0016",
+      "date": "2026-09-18",
+      "createdAt": "2026-09-18T14:41:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00040",
+      "storeId": "STORE-TEST-003",
+      "sourceWarehouseId": "WH-012",
+      "productId": "SP-003",
+      "lotId": "LOT-TEST-003-003",
+      "type": "POS_ISSUE",
+      "qty": -2,
+      "qtyBefore": 47,
+      "qtyAfter": 45,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0016",
+      "date": "2026-09-18",
+      "createdAt": "2026-09-18T14:41:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00041",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-002",
+      "lotId": "LOT-TEST-002-001",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 53,
+      "qtyAfter": 52,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0017",
+      "date": "2026-09-18",
+      "createdAt": "2026-09-18T16:41:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00042",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-003",
+      "lotId": "LOT-TEST-003-001",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 60,
+      "qtyAfter": 59,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0017",
+      "date": "2026-09-18",
+      "createdAt": "2026-09-18T16:41:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00043",
+      "storeId": "STORE-TEST-001",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-008",
+      "lotId": "LOT-TEST-008-001",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 38,
+      "qtyAfter": 37,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0017",
+      "date": "2026-09-18",
+      "createdAt": "2026-09-18T16:41:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00044",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-008",
+      "lotId": "LOT-TEST-008-002",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 27,
+      "qtyAfter": 26,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0018",
+      "date": "2026-09-18",
+      "createdAt": "2026-09-18T18:52:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00045",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-002",
+      "lotId": "LOT-TEST-002-002",
+      "type": "POS_ISSUE",
+      "qty": -2,
+      "qtyBefore": 41,
+      "qtyAfter": 39,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0018",
+      "date": "2026-09-18",
+      "createdAt": "2026-09-18T18:52:00+07:00"
+    },
+    {
+      "id": "RSTX-TEST-00046",
+      "storeId": "STORE-TEST-002",
+      "sourceWarehouseId": "WH-004",
+      "productId": "SP-004",
+      "lotId": "LOT-TEST-004-002",
+      "type": "POS_ISSUE",
+      "qty": -1,
+      "qtyBefore": 38,
+      "qtyAfter": 37,
+      "refType": "POS",
+      "refId": "POS-TEST-2026-0018",
+      "date": "2026-09-18",
+      "createdAt": "2026-09-18T18:52:00+07:00"
+    }
+  ],
+  "replenishments": [
+    {
+      "id": "BS-TEST-001",
+      "storeId": "STORE-TEST-003",
+      "date": "2026-09-18",
+      "status": "REQUESTED",
+      "items": [
+        {
+          "productId": "SP-005",
+          "quantity": 20
+        },
+        {
+          "productId": "SP-008",
+          "quantity": 20
+        }
+      ],
+      "note": "Bổ sung hàng cuối tuần do tồn tại cửa hàng xuống thấp",
+      "createdBy": "NV-004",
+      "createdAt": "2026-09-18T08:10:00+07:00"
+    },
+    {
+      "id": "BS-TEST-002",
+      "storeId": "STORE-TEST-002",
+      "date": "2026-09-17",
+      "status": "RECEIVED",
+      "sourceWarehouseId": "WH-004",
+      "items": [
+        {
+          "productId": "SP-003",
+          "quantity": 30
+        },
+        {
+          "productId": "SP-006",
+          "quantity": 30
+        }
+      ],
+      "approvedItems": [
+        {
+          "productId": "SP-003",
+          "quantity": 30
+        },
+        {
+          "productId": "SP-006",
+          "quantity": 30
+        }
+      ],
+      "transferId": "XCH-TEST-0002",
+      "goodsIssueId": "PX-TEST-0002",
+      "issuedLines": [
+        {
+          "productId": "SP-003",
+          "lotId": "LOT-TEST-003-002",
+          "qty": 30,
+          "unit": "Gói"
+        },
+        {
+          "productId": "SP-006",
+          "lotId": "LOT-TEST-006-002",
+          "qty": 30,
+          "unit": "Chai"
+        }
+      ],
+      "note": "Bổ sung trước giờ cao điểm",
+      "createdBy": "NV-004",
+      "issuedBy": "NV-018",
+      "receivedBy": "NV-004",
+      "createdAt": "2026-09-17T07:30:00+07:00",
+      "issuedAt": "2026-09-17T08:10:00+07:00",
+      "receivedAt": "2026-09-17T08:35:00+07:00"
+    }
+  ]
+}
